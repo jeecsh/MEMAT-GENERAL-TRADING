@@ -9,7 +9,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const bgElementsRef = useRef([]);
+  const bgElementsRef = useRef<(HTMLDivElement | null)[]>([]);
   const navbarRef = useRef(null);
   const mobileMenuRef = useRef(null);
 
@@ -197,7 +197,9 @@ const Navbar = () => {
               return (
                 <div
                   key={element.id}
-                  ref={el => (bgElementsRef.current[i] = el)}
+                  ref={(el: HTMLDivElement | null) => {
+                    if (bgElementsRef.current) bgElementsRef.current[i] = el;
+                  }}
                   className={`absolute rounded-full bg-gradient-to-br ${colorClass} pointer-events-none`}
                   style={{
                     width: `${element.size}px`,

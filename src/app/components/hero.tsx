@@ -16,7 +16,7 @@ const TradingCompanyHero = () => {
 
   useEffect(() => {
     setIsLoaded(true);
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
         x: (e.clientX / window.innerWidth) * 100,
         y: (e.clientY / window.innerHeight) * 100,
@@ -97,7 +97,7 @@ const TradingCompanyHero = () => {
     return () => clearInterval(cursorInterval);
   }, []);
 
-  const renderTaglineWithHighlight = (text) => {
+  const renderTaglineWithHighlight = (text: string) => {
     const highlights = ['Solar Energy', 'Construction Materials', 'Raw Materials', 'Traffic Safety'];
     let result = text;
     

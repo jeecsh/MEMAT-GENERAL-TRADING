@@ -7,8 +7,8 @@ const ProductsSection = () => {
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
-  const autoSlideRef = useRef(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const autoSlideRef = useRef<NodeJS.Timeout | null>(null);
 
   const categories = [
     {
@@ -136,7 +136,7 @@ const ProductsSection = () => {
       observer.observe(sectionRef.current);
     }
 
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       const rect = sectionRef.current?.getBoundingClientRect();
       if (rect) {
         setMousePosition({
@@ -175,13 +175,12 @@ const ProductsSection = () => {
 
   const currentCategory = categories[activeCategory];
   const currentProducts = currentCategory.products;
-  const IconComponent = currentCategory.icon;
 
-  const handleCategoryChange = (index) => {
+  const handleCategoryChange = (index: number) => {
     setActiveCategory(index);
   };
 
-  const handleProductNavigation = (direction) => {
+  const handleProductNavigation = (direction: 'prev' | 'next') => {
     if (direction === 'next') {
       setCurrentProductIndex((prev) => (prev + 1) % currentProducts.length);
     } else {

@@ -6,8 +6,8 @@ const AboutUsSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
-  const intervalRef = useRef(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const aboutContent = [
     {
@@ -59,7 +59,7 @@ const AboutUsSection = () => {
       observer.observe(sectionRef.current);
     }
 
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       const rect = sectionRef.current?.getBoundingClientRect();
       if (rect) {
         setMousePosition({
@@ -139,7 +139,7 @@ const AboutUsSection = () => {
               
               <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
                 Building the
-                <span className="block text-yellow-400">Gulf's Future</span>
+                <span className="block text-yellow-400">Gulf&apos;s Future</span>
               </h2>
             </div>
 

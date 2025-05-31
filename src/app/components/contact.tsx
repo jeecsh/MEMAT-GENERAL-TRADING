@@ -97,13 +97,13 @@ const ContactUs: React.FC = () => {
           </div>
 
           <h1 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight">
-            Let's Start a
+            Let&apos;s Start a
             <span className="block bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 bg-clip-text text-transparent animate-gradient">
               Conversation
             </span>
           </h1>
           <p className="text-xl text-neutral-300 max-w-3xl mx-auto leading-relaxed">
-            Ready to transform your business? Reach out and let's discuss how we can help you achieve your goals.
+            Ready to transform your business? Reach out and let&apos;s discuss how we can help you achieve your goals.
           </p>
         </div>
 
@@ -123,7 +123,7 @@ const ContactUs: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold text-white">Send us a Message</h3>
-                  <p className="text-neutral-400">We'll get back to you within 24 hours</p>
+                  <p className="text-neutral-400">We&apos;ll get back to you within 24 hours</p>
                 </div>
               </div>
             </div>
@@ -134,7 +134,7 @@ const ContactUs: React.FC = () => {
                   <CheckCircle className="text-green-400" size={40} />
                 </div>
                 <h4 className="text-2xl font-bold text-white">Message Sent!</h4>
-                <p className="text-neutral-300">Thank you for reaching out. We'll be in touch soon.</p>
+                  <p className="text-neutral-300">Thank you for reaching out. We&apos;ll be in touch soon.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-8">
@@ -189,7 +189,7 @@ const ContactUs: React.FC = () => {
                     onChange={handleChange}
                     onFocus={() => setFocusedField("message")}
                     onBlur={() => setFocusedField("")}
-                    placeholder="Tell us about your project or inquiry..."
+                    placeholder="Tell us about your project or inquiry&hellip;"
                     className={inputClasses("message")}
                     required
                   />

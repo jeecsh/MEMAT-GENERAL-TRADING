@@ -6,13 +6,25 @@ import createGlobe from 'cobe';
 const LegalCertificationsSection = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
-  const [labelPositions, setLabelPositions] = useState([]);
+  interface LabelPosition {
+    x: number;
+    y: number;
+    visible: boolean;
+    lat: number;
+    lng: number;
+    color: string;
+    name: string;
+  }
+  const [labelPositions, setLabelPositions] = useState<LabelPosition[]>([]);
   const [isPointerDown, setIsPointerDown] = useState(false);
   const pointerInteractionMovement = useRef(0);
   const pointerDownPosition = useRef([0, 0]);
-  const globeRef = useRef(null);
-  const phiRef = useRef(0); // Store phi in a ref to persist across renders
-  const lastInteractionTimeRef = useRef(0);
+  interface GlobeInstance {
+    destroy: () => void;
+  }
+  const globeRef = useRef<GlobeInstance | null>(null);
+  const phiRef = useRef<number>(0);
+  const lastInteractionTimeRef = useRef<number>(0);
 
   // Region data (lat, lng, color)
   const regions = [
@@ -101,37 +113,43 @@ const LegalCertificationsSection = () => {
     globeRef.current = globe;
 
     // Mouse/Touch event handlers for manual rotation
-    const onPointerDown = (e) => {
+    const handlePointerEvent = (e: MouseEvent | TouchEvent) => {
+      if (e instanceof MouseEvent) {
+        return { x: e.clientX, y: e.clientY };
+      } else {
+        return e.touches[0] ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null;
+      }
+    };
+
+    const onPointerDown = (e: MouseEvent | TouchEvent) => {
       setIsPointerDown(true);
-      const clientX = e.clientX || (e.touches && e.touches[0] && e.touches[0].clientX);
-      const clientY = e.clientY || (e.touches && e.touches[0] && e.touches[0].clientY);
-      
-      pointerDownPosition.current = [clientX || 0, clientY || 0];
-      if (canvasRef.current) {
-        canvasRef.current.style.cursor = 'grabbing';
+      const pos = handlePointerEvent(e);
+      if (pos) {
+        pointerDownPosition.current = [pos.x, pos.y];
+        if (canvasRef.current) {
+          canvasRef.current.style.cursor = 'grabbing';
+        }
       }
     };
 
     const onPointerUp = () => {
       setIsPointerDown(false);
-      pointerInteractionMovement.current = 0; // Stop movement when releasing
-      lastInteractionTime = Date.now(); // Set the time when interaction stops
+      pointerInteractionMovement.current = 0;
+      lastInteractionTimeRef.current = Date.now();
       if (canvasRef.current) {
         canvasRef.current.style.cursor = 'grab';
       }
     };
 
-    const onPointerMove = (e) => {
+    const onPointerMove = (e: MouseEvent | TouchEvent) => {
       if (!isPointerDown) return;
       
-      const clientX = e.clientX || (e.touches && e.touches[0] && e.touches[0].clientX);
-      if (clientX === undefined) return;
-      
-      const deltaX = clientX - pointerDownPosition.current[0];
-      
-      // Update rotation based on horizontal movement - more sensitive for free scrolling
-      pointerInteractionMovement.current = deltaX * 0.008;
-      pointerDownPosition.current[0] = clientX;
+      const pos = handlePointerEvent(e);
+      if (pos) {
+        const deltaX = pos.x - pointerDownPosition.current[0];
+        pointerInteractionMovement.current = deltaX * 0.008;
+        pointerDownPosition.current[0] = pos.x;
+      }
     };
 
     // Add event listeners
@@ -165,7 +183,7 @@ const LegalCertificationsSection = () => {
   }, [isPointerDown]);
 
   // Helper function to convert lat/lng to 3D coordinates and project to 2D
-  const project3DTo2D = (lat, lng, phi, canvasSize) => {
+  const project3DTo2D = (lat: number, lng: number, phi: number, canvasSize: number) => {
     // Convert to radians
     const latRad = (lat * Math.PI) / 180;
     const lngRad = ((lng + phi * 180 / Math.PI) * Math.PI) / 180;
@@ -273,8 +291,8 @@ const LegalCertificationsSection = () => {
                 <Truck className="w-5 h-5 text-yellow-400" />
                 <h3 className="text-lg font-bold text-white">Global Delivery Network</h3>
               </div>
-              <p className="text-base text-white font-medium">
-                "We deliver to the Gulf States, Asia, and Africa"
+                <p className="text-base text-white font-medium">
+                &quot;We deliver to the Gulf States, Asia, and Africa&quot;
               </p>
             </div>
 
