@@ -5,6 +5,14 @@ import { ArrowRight } from 'lucide-react';
 const TradingCompanyHero = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
+  const [excellenceText, setExcellenceText] = useState('');
+  const [taglineText, setTaglineText] = useState('');
+  const [showCursor1, setShowCursor1] = useState(true);
+  const [showCursor2, setShowCursor2] = useState(false);
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+
+  const excellenceWords = ['EXCELLENCE', 'QUALITY', 'AUTHANTCTY', 'RELIABILITY'];
+  const taglineString = ' Solar Energy, Construction Materials, Raw Materials & Traffic Safety Solutions';
 
   useEffect(() => {
     setIsLoaded(true);
@@ -18,6 +26,92 @@ const TradingCompanyHero = () => {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
+
+  // Excellence typing animation with word cycling
+  useEffect(() => {
+    let excellenceIndex = 0;
+    let isTyping = true;
+    const currentWord = excellenceWords[currentWordIndex];
+    
+    const typeExcellence = () => {
+      if (isTyping) {
+        if (excellenceIndex <= currentWord.length) {
+          setExcellenceText(currentWord.slice(0, excellenceIndex));
+          excellenceIndex++;
+        } else {
+          // Finished typing, wait then start erasing
+          setTimeout(() => {
+            isTyping = false;
+          }, 2500);
+        }
+      } else {
+        if (excellenceIndex > 0) {
+          excellenceIndex--;
+          setExcellenceText(currentWord.slice(0, excellenceIndex));
+        } else {
+          // Finished erasing, move to next word
+          setCurrentWordIndex((prev) => (prev + 1) % excellenceWords.length);
+          isTyping = true;
+          excellenceIndex = 0;
+        }
+      }
+    };
+
+    const excellenceInterval = setInterval(typeExcellence, 150);
+    return () => clearInterval(excellenceInterval);
+  }, [currentWordIndex]);
+
+  // Tagline typing animation (one time only)
+  useEffect(() => {
+    let taglineIndex = 0;
+    
+    // Start tagline animation after Excellence has typed once
+    const startDelay = setTimeout(() => {
+      setShowCursor2(true);
+      
+      const typeTagline = () => {
+        if (taglineIndex <= taglineString.length) {
+          setTaglineText(taglineString.slice(0, taglineIndex));
+          taglineIndex++;
+        } else {
+          // Finished typing, keep the cursor visible
+          clearInterval(taglineInterval);
+        }
+      };
+
+      const taglineInterval = setInterval(typeTagline, 60);
+    }, 1000);
+
+    return () => {
+      clearTimeout(startDelay);
+    };
+  }, []);
+
+  // Cursor blinking effect
+  useEffect(() => {
+    const cursorInterval = setInterval(() => {
+      setShowCursor1(prev => !prev);
+      setShowCursor2(prev => !prev);
+    }, 500);
+
+    return () => clearInterval(cursorInterval);
+  }, []);
+
+  const renderTaglineWithHighlight = (text) => {
+    const highlights = ['Solar Energy', 'Construction Materials', 'Raw Materials', 'Traffic Safety'];
+    let result = text;
+    
+    highlights.forEach(highlight => {
+      if (text.includes(highlight)) {
+        result = result.replace(
+          highlight,
+          `<span class="text-yellow-400 font-medium">${highlight}</span>`
+        );
+      }
+    });
+    
+    return <span dangerouslySetInnerHTML={{ __html: result }} />;
+  };
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden flex items-center justify-center">
@@ -59,25 +153,29 @@ const TradingCompanyHero = () => {
             <div className="w-2 h-2 bg-yellow-400 rounded-full ml-4 animate-pulse"></div>
           </div>
           
-          <h1 className="text-6xl md:text-8xl font-black mb-6 relative">
+          <h1 className="text-6xl md:text-8xl font-black mb-6 relative min-h-[120px] flex items-center justify-center">
             <span className="text-white">
-              EXCELLENCE
+              {excellenceText}
+              <span className={`${showCursor1 ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100`}>|</span>
             </span>
             <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-px bg-yellow-400"></div>
           </h1>
         </div>
 
-        {/* Trading focus tagline */}
-        <p className="text-2xl md:text-3xl text-white mb-12 font-light max-w-4xl mx-auto leading-relaxed">
-          Premium <span className="text-yellow-400 font-medium">Solar Energy</span>, 
-          <span className="text-yellow-400 font-medium"> Construction Materials</span>, 
-          <span className="text-yellow-400 font-medium"> Raw Materials</span> & 
-          <span className="text-yellow-400 font-medium"> Traffic Safety</span> Solutions
-        </p>
+        {/* Trading focus tagline with typing animation */}
+        <div className="mb-12 min-h-[120px] flex items-center justify-center">
+          <p className="text-2xl md:text-3xl text-white font-light max-w-4xl mx-auto leading-relaxed">
+            Premium {renderTaglineWithHighlight(taglineText)}
+            <span className={`${showCursor2 ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100`}>|</span>
+          </p>
+        </div>
 
         {/* CTA Button */}
         <div className="group mb-16">
-          <button className="relative bg-yellow-400 hover:bg-yellow-500 text-black px-12 py-5 rounded-full font-bold text-xl transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-yellow-400/30 overflow-hidden">
+          <a 
+            href="#products"
+            className="relative inline-block bg-yellow-400 hover:bg-yellow-500 text-black px-12 py-5 rounded-full font-bold text-xl transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-yellow-400/30 overflow-hidden"
+          >
             <span className="relative z-10 flex items-center">
               Discover Products
               <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform duration-300" size={24} />
@@ -85,7 +183,7 @@ const TradingCompanyHero = () => {
             
             {/* Button shine effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-          </button>
+          </a>
         </div>
 
         {/* Simple stats with Gulf region focus */}
