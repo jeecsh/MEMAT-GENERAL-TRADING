@@ -11,7 +11,7 @@ const TradingCompanyHero = () => {
   const [showCursor2, setShowCursor2] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
 
-  const excellenceWords = ['EXCELLENCE', 'QUALITY', 'AUTHANTCTY', 'RELIABILITY'];
+  const excellenceWords = ['EXCELLENCE', 'QUALITY', 'AUTHENTICITY', 'RELIABILITY'];
   const taglineString = ' Solar Energy, Construction Materials, Raw Materials & Traffic Safety Solutions';
 
   useEffect(() => {
@@ -115,8 +115,21 @@ const TradingCompanyHero = () => {
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden flex items-center justify-center">
+      {/* Background image with better desktop positioning */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop&crop=center"
+          alt="UAE Background"
+          className="w-full h-full object-cover object-center md:object-[center_10%] opacity-50"
+        />
+        {/* Black overlay fade from bottom */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
+        {/* Additional subtle overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/20"></div>
+      </div>
+
       {/* Modern geometric background elements */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 z-10">
         {/* Large geometric shapes */}
         <div className="absolute top-1/4 -left-32 w-96 h-96 bg-gradient-to-br from-neutral-900 to-neutral-800 rounded-full opacity-40 blur-xl"></div>
         <div className="absolute bottom-1/3 -right-32 w-80 h-80 bg-gradient-to-tl from-neutral-800 to-neutral-900 transform rotate-45 opacity-30 blur-2xl"></div>
@@ -133,19 +146,21 @@ const TradingCompanyHero = () => {
       
       {/* Subtle mouse follow effect */}
       <div 
-        className="absolute inset-0 opacity-8 transition-all duration-1000 ease-out"
+        className="absolute inset-0 opacity-8 transition-all duration-1000 ease-out z-10"
         style={{
           background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, #fbbf24 0%, transparent 50%)`
         }}
       />
+      
 
       {/* Main content */}
-      <div className={`text-center px-6 relative z-10 transition-all duration-1500 ${
+      <div className={`text-center px-6 relative z-20 transition-all duration-1500 ${
         isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
       }`}>
         
         {/* Company branding */}
         <div className="mb-8">
+          
           {/* Gulf Trading identity */}
           <div className="inline-flex items-center mb-6 bg-neutral-900/70 backdrop-blur-sm px-8 py-3 rounded-full border border-neutral-800">
             <div className="w-2 h-2 bg-yellow-400 rounded-full mr-4 animate-pulse"></div>
@@ -206,10 +221,10 @@ const TradingCompanyHero = () => {
       </div>
 
       {/* Corner brackets for modern framing */}
-      <div className="absolute top-8 left-8 w-8 h-8 border-l-2 border-t-2 border-neutral-800"></div>
-      <div className="absolute top-8 right-8 w-8 h-8 border-r-2 border-t-2 border-neutral-800"></div>
-      <div className="absolute bottom-8 left-8 w-8 h-8 border-l-2 border-b-2 border-neutral-800"></div>
-      <div className="absolute bottom-8 right-8 w-8 h-8 border-r-2 border-b-2 border-neutral-800"></div>
+      <div className="absolute top-8 left-8 w-8 h-8 border-l-2 border-t-2 border-neutral-800 z-30"></div>
+      <div className="absolute top-8 right-8 w-8 h-8 border-r-2 border-t-2 border-neutral-800 z-30"></div>
+      <div className="absolute bottom-8 left-8 w-8 h-8 border-l-2 border-b-2 border-neutral-800 z-30"></div>
+      <div className="absolute bottom-8 right-8 w-8 h-8 border-r-2 border-b-2 border-neutral-800 z-30"></div>
     </div>
   );
 };

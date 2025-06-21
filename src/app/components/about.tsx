@@ -14,7 +14,7 @@ const AboutUsSection = () => {
       icon: Globe,
       title: "Gulf Market Leaders",
       text: "Established as a premier trading company in the Gulf region, we've built strong partnerships across multiple industries, delivering excellence in every transaction.",
-      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop&crop=center"
+      image: "/uae.jpg"
     },
     {
       icon: Zap,
@@ -26,19 +26,19 @@ const AboutUsSection = () => {
       icon: Target,
       title: "Construction Innovation",
       text: "From premium paints to advanced lighting solutions, we provide comprehensive construction materials that meet the highest quality standards in the industry.",
-      image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&h=400&fit=crop&crop=center"
+      image: "/construction.jpg"
     },
     {
       icon: Award,
       title: "Quality Raw Materials",
       text: "Sourcing and delivering the finest industrial inputs including white silica sand and gabbro, ensuring your projects have the strongest foundation.",
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop&crop=center"
+      image: "/rmala.jpg"
     },
     {
       icon: Users,
       title: "Safety Solutions",
       text: "Comprehensive traffic safety solutions including road paints, warning signs, and reflective materials that protect lives and ensure smooth transportation.",
-      image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop&crop=center"
+      image: "/signs.jpg"
     }
   ];
 

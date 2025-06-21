@@ -1,126 +1,57 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
-import { Sun, Wrench, Building, Shield, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Sun, Wrench, Building, Shield, ArrowRight, Sparkles } from 'lucide-react';
 
-const ProductsSection = () => {
-  const [activeCategory, setActiveCategory] = useState(0);
-  const [currentProductIndex, setCurrentProductIndex] = useState(0);
+const ProductsOverview = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
-  const autoSlideRef = useRef<NodeJS.Timeout | null>(null);
 
   const categories = [
     {
       id: 'solar',
       title: 'Solar Energy',
       subtitle: 'Sustainable Power Solutions',
+      description: 'High-efficiency solar panels, smart inverters, and energy storage systems for complete renewable energy solutions.',
       icon: Sun,
       color: 'from-yellow-400 to-orange-500',
-      products: [
-        {
-          name: 'Premium Solar Panels',
-          description: 'High-efficiency photovoltaic panels for maximum energy conversion',
-          image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=500&h=300&fit=crop'
-        },
-        {
-          name: 'Smart Inverters',
-          description: 'Advanced power conversion technology with monitoring capabilities',
-          image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop'
-        },
-        {
-          name: 'Energy Storage Batteries',
-          description: 'Long-lasting lithium batteries for reliable energy storage',
-          image: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&h=300&fit=crop'
-        }
-      ]
+      bgGradient: 'from-yellow-400/10 to-orange-500/10',
+      productCount: 3,
+      image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=400&h=250&fit=crop'
     },
     {
       id: 'raw',
       title: 'Raw Materials',
       subtitle: 'Industrial Grade Components',
+      description: 'Premium industrial inputs, white silica sand, and gabbro stone for manufacturing and construction applications.',
       icon: Wrench,
       color: 'from-gray-400 to-gray-600',
-      products: [
-        {
-          name: 'Industrial Inputs',
-          description: 'Premium quality materials for manufacturing processes',
-          image: 'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=500&h=300&fit=crop'
-        },
-        {
-          name: 'White Silica Sand',
-          description: 'High-purity silica sand for glass and construction applications',
-          image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop'
-        },
-        {
-          name: 'Gabbro Stone',
-          description: 'Durable igneous rock for construction and road building',
-          image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=300&fit=crop'
-        }
-      ]
+      bgGradient: 'from-gray-400/10 to-gray-600/10',
+      productCount: 3,
+      image: 'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=400&h=250&fit=crop'
     },
     {
       id: 'construction',
       title: 'Construction Materials',
       subtitle: 'Complete Building Solutions',
+      description: 'Premium paints, ceramic tiles, lighting systems, and specialized building materials for modern construction.',
       icon: Building,
       color: 'from-blue-400 to-purple-500',
-      products: [
-        {
-          name: 'Premium Paints',
-          description: 'High-quality interior and exterior paints with durability',
-          image: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=500&h=300&fit=crop'
-        },
-        {
-          name: 'Ceramic & Floor Finishing',
-          description: 'Elegant tiles and finishing materials for modern spaces',
-          image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=500&h=300&fit=crop'
-        },
-        {
-          name: 'Lighting & Chandeliers',
-          description: 'Sophisticated lighting solutions for residential and commercial use',
-          image: 'https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?w=500&h=300&fit=crop'
-        },
-        {
-          name: 'Glow-in-the-Dark Materials',
-          description: 'Phosphorescent materials for safety and decorative applications',
-          image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=500&h=300&fit=crop'
-        },
-        {
-          name: 'Building Sand & Gravel',
-          description: 'Various grades of sand and gravel for construction projects',
-          image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=300&fit=crop'
-        }
-      ]
+      bgGradient: 'from-blue-400/10 to-purple-500/10',
+      productCount: 5,
+      image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=250&fit=crop'
     },
     {
       id: 'traffic',
       title: 'Traffic Safety',
       subtitle: 'Road Safety Solutions',
+      description: 'Professional road marking paints, traffic signs, safety equipment, and reflective solutions for road safety.',
       icon: Shield,
       color: 'from-red-400 to-pink-500',
-      products: [
-        {
-          name: 'Road Paints & Planning',
-          description: 'Professional road marking paints and planning services',
-          image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=500&h=300&fit=crop'
-        },
-        {
-          name: 'Traffic Signs',
-          description: 'Complete range of warning, work-site, and guidance signs',
-          image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop'
-        },
-        {
-          name: 'Safety Equipment',
-          description: 'Cones, bollards, cat eyes, and speed humps for road safety',
-          image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=300&fit=crop'
-        },
-        {
-          name: 'Reflective Solutions',
-          description: 'Reflective tapes, road studs, and LED signage systems',
-          image: 'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=500&h=300&fit=crop'
-        }
-      ]
+      bgGradient: 'from-red-400/10 to-pink-500/10',
+      productCount: 4,
+      image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=250&fit=crop'
     }
   ];
 
@@ -154,40 +85,6 @@ const ProductsSection = () => {
     };
   }, []);
 
-  // Auto-slide products
-  useEffect(() => {
-    const currentProducts = categories[activeCategory].products;
-    autoSlideRef.current = setInterval(() => {
-      setCurrentProductIndex((prev) => (prev + 1) % currentProducts.length);
-    }, 5000);
-
-    return () => {
-      if (autoSlideRef.current) {
-        clearInterval(autoSlideRef.current);
-      }
-    };
-  }, [activeCategory]);
-
-  // Reset product index when category changes
-  useEffect(() => {
-    setCurrentProductIndex(0);
-  }, [activeCategory]);
-
-  const currentCategory = categories[activeCategory];
-  const currentProducts = currentCategory.products;
-
-  const handleCategoryChange = (index: number) => {
-    setActiveCategory(index);
-  };
-
-  const handleProductNavigation = (direction: 'prev' | 'next') => {
-    if (direction === 'next') {
-      setCurrentProductIndex((prev) => (prev + 1) % currentProducts.length);
-    } else {
-      setCurrentProductIndex((prev) => (prev - 1 + currentProducts.length) % currentProducts.length);
-    }
-  };
-
   return (
     <section 
       ref={sectionRef}
@@ -215,148 +112,105 @@ const ProductsSection = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         
-        {/* Section Header - Aligned left */}
-        <div className={`text-left mb-16 transition-all duration-1000 ${
+        {/* Section Header */}
+        <div className={`text-center mb-20 transition-all duration-1000 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
         }`}>
           <div className="inline-flex items-center mb-6 bg-neutral-900/70 backdrop-blur-sm px-6 py-2 rounded-full border border-neutral-800">
-            <div className="w-2 h-2 bg-yellow-400 rounded-full mr-3 animate-pulse"></div>
+            <Sparkles className="w-4 h-4 text-yellow-400 mr-3 animate-pulse" />
             <span className="text-white font-medium tracking-wider text-sm">OUR PRODUCTS</span>
           </div>
           
-          <h2 className="text-4xl md:text-6xl font-black text-white mb-4">
+          <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
             Premium <span className="text-yellow-400">Solutions</span>
           </h2>
-          <p className="text-xl text-neutral-300 max-w-2xl">
-            Discover our comprehensive range of high-quality products across four key industries
+          <p className="text-xl text-neutral-300 max-w-3xl mx-auto leading-relaxed">
+            Discover our comprehensive range of high-quality products across four key industries, 
+            each designed to meet the highest standards of excellence and reliability.
           </p>
         </div>
 
-        {/* Category Selector - Aligned left */}
-        <div className={`mb-5 transition-all duration-1000 delay-300 ${
+        {/* Categories Grid */}
+        <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 transition-all duration-1000 delay-300 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
         }`}>
-          <div className="flex flex-wrap justify-start gap-4 md:gap-8">
-            {categories.map((category, index) => {
-              const CategoryIcon = category.icon;
-              return (
-                <button
-                  key={category.id}
-                  onClick={() => handleCategoryChange(index)}
-                  className={`group relative px-0 py-1 md:py-2 transition-all duration-300 ${
-                    activeCategory === index
-                      ? 'text-yellow-400'
-                      : 'text-neutral-400 hover:text-white'
-                  }`}
-                >
-                  <div className="flex flex-col items-start">
-                    <CategoryIcon className={`w-5 h-5 md:w-6 md:h-6 mb-1 md:mb-2 transition-all duration-300 ${
-                      activeCategory === index ? 'scale-110 md:scale-125' : 'group-hover:scale-105 md:group-hover:scale-110'
-                    }`} />
-                    <div className="text-left">
-                      <div className="font-medium text-xs md:text-sm">{category.title}</div>
+          {categories.map((category, index) => {
+            const CategoryIcon = category.icon;
+            return (
+              <div
+                key={category.id}
+                className={`group relative bg-gradient-to-br ${category.bgGradient} backdrop-blur-sm border border-neutral-800 rounded-3xl overflow-hidden hover:border-neutral-600 transition-all duration-500 hover:scale-105 cursor-pointer`}
+                onMouseEnter={() => setHoveredCard(index)}
+                onMouseLeave={() => setHoveredCard(null)}
+              >
+                {/* Background image */}
+                <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
+                  <img
+                    src={category.image}
+                    alt={category.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Gradient overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+
+                <div className="relative p-8 h-full flex flex-col">
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-6">
+                    <div className={`p-3 rounded-2xl bg-gradient-to-br ${category.color} group-hover:scale-110 transition-transform duration-300`}>
+                      <CategoryIcon className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="text-right">
+                   
                     </div>
                   </div>
-                  
-                  {/* Active indicator */}
-                  {activeCategory === index && (
-                    <div className="absolute -bottom-1 left-0 w-8 h-1 bg-yellow-400 rounded-full"></div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+
+                  {/* Content */}
+                  <div className="flex-grow">
+                    <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors duration-300">
+                      {category.title}
+                    </h3>
+                    <p className="text-neutral-400 text-sm mb-4 font-medium">
+                      {category.subtitle}
+                    </p>
+                    <p className="text-neutral-300 leading-relaxed">
+                      {category.description}
+                    </p>
+                  </div>
+
+              
+
+                  {/* Animated background elements */}
+                  <div className="absolute top-4 right-4 w-2 h-2 bg-yellow-400 rounded-full animate-pulse opacity-50"></div>
+                  <div className="absolute bottom-4 left-4 w-1 h-1 bg-neutral-600 rounded-full animate-bounce opacity-30"></div>
+                </div>
+              </div>
+            );
+          })}
         </div>
 
-        {/* Product Showcase - Remains centered */}
-        <div className={`transition-all duration-1000 delay-500 ${
+        {/* Call to Action */}
+        <div className={`text-center transition-all duration-1000 delay-700 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
         }`}>
-          <div className="relative">
-            {/* Navigation Buttons */}
-            <button
-              onClick={() => handleProductNavigation('prev')}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 w-12 h-12 bg-neutral-900/80 backdrop-blur-sm border border-neutral-700 rounded-full flex items-center justify-center hover:bg-neutral-800 transition-all duration-300 hover:scale-110"
-            >
-              <ChevronLeft className="w-6 h-6 text-white" />
-            </button>
-
-            <button
-              onClick={() => handleProductNavigation('next')}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 w-12 h-12 bg-neutral-900/80 backdrop-blur-sm border border-neutral-700 rounded-full flex items-center justify-center hover:bg-neutral-800 transition-all duration-300 hover:scale-110"
-            >
-              <ChevronRight className="w-6 h-6 text-white" />
-            </button>
-
-            {/* Products Container */}
-            <div className="overflow-hidden rounded-3xl bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 border border-neutral-700 p-8">
-              <div 
-                className="flex transition-transform duration-1000 ease-in-out"
-                style={{ transform: `translateX(-${currentProductIndex * 100}%)` }}
-              >
-                {currentProducts.map((product, index) => (
-                  <div key={index} className="w-full flex-shrink-0">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                      
-                      {/* Product Image */}
-                      <div className="relative group">
-                        <div className="relative overflow-hidden rounded-2xl">
-                          <img
-                            src={product.image}
-                            alt={product.name}
-                            className="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                          
-                          {/* Image overlay elements */}
-                          <div className="absolute top-4 right-4 w-3 h-3 bg-yellow-400 rounded-full animate-pulse"></div>
-                          <div className="absolute bottom-4 left-4 bg-black/70 backdrop-blur-sm px-4 py-2 rounded-full">
-                            <span className="text-white text-sm font-medium">{currentCategory.title}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Product Details */}
-                      <div className="space-y-6">
-                        <div>
-                          <h4 className="text-3xl font-bold text-white mb-4">{product.name}</h4>
-                          <p className="text-lg text-neutral-300 leading-relaxed">{product.description}</p>
-                        </div>
-
-                        <div className="flex items-center space-x-4">
-                          <button className="bg-yellow-400 hover:bg-yellow-500 text-black px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105">
-                            Learn More
-                          </button>
-                          <button className="border border-neutral-600 hover:border-neutral-500 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:bg-neutral-800">
-                            Get Quote
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-left mt-6">
-                      <span className="bg-neutral-900/70 backdrop-blur-sm px-4 py-2 rounded-full text-sm text-neutral-400 border border-neutral-800">
-                        {String(currentProductIndex + 1).padStart(2, '0')} / {String(currentProducts.length).padStart(2, '0')}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+          <div className="bg-gradient-to-r from-neutral-900/80 to-neutral-800/80 backdrop-blur-sm border border-neutral-700 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Ready to Explore Our <span className="text-yellow-400">Products</span>?
+            </h3>
+            <p className="text-xl text-neutral-300 mb-8 max-w-2xl mx-auto">
+              Browse our complete catalog and discover detailed specifications, pricing, and availability for all our premium solutions.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <button className="group bg-yellow-400 hover:bg-yellow-500 text-black px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 hover:scale-105 flex items-center">
+                <span>View All Products</span>
+                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+              </button>
+              
             </div>
-
-            {/* Product Progress Indicators - Aligned left */}
-            <div className="flex justify-start space-x-2 mt-8">
-              {currentProducts.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentProductIndex(index)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    index === currentProductIndex 
-                      ? 'w-8 bg-yellow-400' 
-                      : 'w-2 bg-neutral-600 hover:bg-neutral-500'
-                  }`}
-                />
-              ))}
-            </div>
+            
+          
           </div>
         </div>
       </div>
@@ -364,4 +218,4 @@ const ProductsSection = () => {
   );
 };
 
-export default ProductsSection;
+export default ProductsOverview;
