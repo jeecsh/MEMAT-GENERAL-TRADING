@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import { Sun, Wrench, Building, Shield, ArrowRight, Sparkles } from 'lucide-react';
+import Link from 'next/link';
 
 const ProductsOverview = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -137,55 +138,73 @@ const ProductsOverview = () => {
           {categories.map((category, index) => {
             const CategoryIcon = category.icon;
             return (
-              <div
+              <Link
+                href={`/products?category=${category.id}`}
                 key={category.id}
-                className={`group relative bg-gradient-to-br ${category.bgGradient} backdrop-blur-sm border border-neutral-800 rounded-3xl overflow-hidden hover:border-neutral-600 transition-all duration-500 hover:scale-105 cursor-pointer`}
-                onMouseEnter={() => setHoveredCard(index)}
-                onMouseLeave={() => setHoveredCard(null)}
+                className="block"
               >
-                {/* Background image */}
-                <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
-                  <img
-                    src={category.image}
-                    alt={category.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
-                {/* Gradient overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
-
-                <div className="relative p-8 h-full flex flex-col">
-                  {/* Header */}
-                  <div className="flex items-start justify-between mb-6">
-                    <div className={`p-3 rounded-2xl bg-gradient-to-br ${category.color} group-hover:scale-110 transition-transform duration-300`}>
-                      <CategoryIcon className="w-6 h-6 text-white" />
-                    </div>
-                    <div className="text-right">
-                   
-                    </div>
+                <div
+                  className={`group relative bg-gradient-to-br ${category.bgGradient} backdrop-blur-sm border border-neutral-800 rounded-3xl overflow-hidden hover:border-neutral-600 transition-all duration-500 hover:scale-105 cursor-pointer`}
+                  onMouseEnter={() => setHoveredCard(index)}
+                  onMouseLeave={() => setHoveredCard(null)}
+                >
+                  {/* Background image */}
+                  <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
+                    <img
+                      src={category.image}
+                      alt={category.title}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
 
-                  {/* Content */}
-                  <div className="flex-grow">
-                    <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors duration-300">
-                      {category.title}
-                    </h3>
-                    <p className="text-neutral-400 text-sm mb-4 font-medium">
-                      {category.subtitle}
-                    </p>
-                    <p className="text-neutral-300 leading-relaxed">
-                      {category.description}
-                    </p>
+                  {/* Gradient overlay */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+
+                  <div className="relative p-8 h-full flex flex-col min-h-[320px]">
+                    {/* Header */}
+                    <div className="flex items-start justify-between mb-6">
+                      <div className={`p-3 rounded-2xl bg-gradient-to-br ${category.color} group-hover:scale-110 transition-transform duration-300`}>
+                        <CategoryIcon className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="text-right">
+                        <div className="bg-neutral-900/70 backdrop-blur-sm px-3 py-1 rounded-full border border-neutral-700">
+                          <span className="text-neutral-300 text-xs font-medium">
+                            {category.productCount} Products
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-grow">
+                      <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors duration-300">
+                        {category.title}
+                      </h3>
+                      <p className="text-neutral-400 text-sm mb-4 font-medium">
+                        {category.subtitle}
+                      </p>
+                      <p className="text-neutral-300 leading-relaxed mb-6">
+                        {category.description}
+                      </p>
+                    </div>
+
+                    {/* Action area */}
+                    <div className="flex items-center justify-between mt-auto">
+                      <div className="flex items-center text-yellow-400 font-medium text-sm group-hover:text-yellow-300 transition-colors duration-300">
+                        <span>Explore Products</span>
+                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                      </div>
+                      
+                      {/* Animated indicator */}
+                      <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse opacity-70 group-hover:opacity-100 group-hover:scale-125 transition-all duration-300"></div>
+                    </div>
+
+                    {/* Animated background elements */}
+                    <div className="absolute top-4 right-4 w-2 h-2 bg-yellow-400 rounded-full animate-pulse opacity-50"></div>
+                    <div className="absolute bottom-4 left-4 w-1 h-1 bg-neutral-600 rounded-full animate-bounce opacity-30"></div>
                   </div>
-
-              
-
-                  {/* Animated background elements */}
-                  <div className="absolute top-4 right-4 w-2 h-2 bg-yellow-400 rounded-full animate-pulse opacity-50"></div>
-                  <div className="absolute bottom-4 left-4 w-1 h-1 bg-neutral-600 rounded-full animate-bounce opacity-30"></div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
@@ -203,14 +222,13 @@ const ProductsOverview = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <button className="group bg-yellow-400 hover:bg-yellow-500 text-black px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 hover:scale-105 flex items-center">
-                <span>View All Products</span>
-                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
-              </button>
-              
+              <Link href="/products">
+                <button className="group bg-yellow-400 hover:bg-yellow-500 text-black px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 hover:scale-105 flex items-center">
+                  <span>View All Products</span>
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                </button>
+              </Link>
             </div>
-            
-          
           </div>
         </div>
       </div>

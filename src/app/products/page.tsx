@@ -2,12 +2,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Sun, Wrench, Building, Shield, ArrowRight, Phone, Mail, MessageCircle, Menu, X } from 'lucide-react';
 import Navbar from "../components/navbar";
-
-
+import { useSearchParams } from 'next/navigation';
 
 // Main Products Page Component
 const ProductsPage = () => {
-  const [activeCategory, setActiveCategory] = useState(0);
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get('category');
+  
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -31,13 +32,13 @@ const ProductsPage = () => {
           name: 'Smart Inverters',
           description: 'Advanced power conversion technology with monitoring capabilities and smart grid integration for optimal performance.',
           features: ['Smart monitoring', 'Grid integration', 'High conversion rate', 'Remote control'],
-          image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop'
+          image: 'inverters.jpg'
         },
         {
           name: 'Energy Storage Batteries',
           description: 'Long-lasting lithium batteries for reliable energy storage with advanced battery management systems.',
           features: ['Long lifespan', 'Fast charging', 'Safe operation', 'Scalable capacity'],
-          image: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&h=300&fit=crop'
+          image: 'batt.avif'
         }
       ]
     },
@@ -59,13 +60,13 @@ const ProductsPage = () => {
           name: 'White Silica Sand',
           description: 'High-purity silica sand for glass and construction applications with excellent chemical properties.',
           features: ['High purity', 'Consistent grain size', 'Low impurities', 'Multiple grades'],
-          image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop'
+          image: 'rmla.jpg'
         },
         {
           name: 'Gabbro Stone',
           description: 'Durable igneous rock for construction and road building with excellent strength and durability.',
           features: ['High durability', 'Excellent strength', 'Weather resistant', 'Various sizes'],
-          image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=300&fit=crop'
+          image: 'gabro.jpg'
         }
       ]
     },
@@ -87,7 +88,7 @@ const ProductsPage = () => {
           name: 'Ceramic & Floor Finishing',
           description: 'Elegant tiles and finishing materials for modern spaces with contemporary designs and durability.',
           features: ['Modern designs', 'Easy maintenance', 'Slip resistant', 'Water resistant'],
-          image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=500&h=300&fit=crop'
+          image: 'cer.webp'
         },
         {
           name: 'Lighting & Chandeliers',
@@ -99,13 +100,13 @@ const ProductsPage = () => {
           name: 'Glow-in-the-Dark Materials',
           description: 'Phosphorescent materials for safety and decorative applications with long-lasting glow properties.',
           features: ['Long-lasting glow', 'Safety approved', 'Easy application', 'Multiple colors'],
-          image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=500&h=300&fit=crop'
+          image: 'glow.jpg'
         },
         {
           name: 'Building Sand & Gravel',
           description: 'Various grades of sand and gravel for construction projects with consistent quality and sizing.',
           features: ['Consistent quality', 'Multiple grades', 'Clean materials', 'Bulk supply'],
-          image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=300&fit=crop'
+          image: 'rmala.jpg'
         }
       ]
     },
@@ -121,29 +122,47 @@ const ProductsPage = () => {
           name: 'Road Paints & Planning',
           description: 'Professional road marking paints and planning services with high visibility and durability.',
           features: ['High visibility', 'Weather resistant', 'Fast drying', 'Long-lasting'],
-          image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=500&h=300&fit=crop'
+          image: 'road.jpg'
         },
         {
           name: 'Traffic Signs',
           description: 'Complete range of warning, work-site, and guidance signs with reflective materials for safety.',
           features: ['Reflective materials', 'Weather resistant', 'Easy installation', 'Standard compliant'],
-          image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop'
+          image: 'signs.jpg'
         },
         {
           name: 'Safety Equipment',
           description: 'Cones, bollards, cat eyes, and speed humps for road safety with high visibility design.',
           features: ['High visibility', 'Durable materials', 'Easy deployment', 'Safety certified'],
-          image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=300&fit=crop'
+          image: 'safty.jpeg'
         },
         {
           name: 'Reflective Solutions',
           description: 'Reflective tapes, road studs, and LED signage systems for enhanced visibility and safety.',
           features: ['Enhanced visibility', 'Energy efficient', 'Long lifespan', 'Easy maintenance'],
-          image: 'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=500&h=300&fit=crop'
-        }
+          image: 'refff.avif'}
       ]
     }
   ];
+
+  // Find initial category index based on URL parameter
+  const getInitialCategory = () => {
+    if (!categoryParam) return 0;
+    const index = categories.findIndex(cat => cat.id === categoryParam);
+    return index >= 0 ? index : 0;
+  };
+
+  const [activeCategory, setActiveCategory] = useState(getInitialCategory);
+
+  // Update active category when URL parameter changes
+  useEffect(() => {
+    if (categoryParam) {
+      const index = categories.findIndex(cat => cat.id === categoryParam);
+      if (index >= 0) {
+        setActiveCategory(index);
+      }
+    }
+  }, [categoryParam]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -178,7 +197,7 @@ const ProductsPage = () => {
   const handleWhatsAppMessage = (categoryTitle: string, productName: string) => {
     const message = `Hello! I'm interested in learning more about your ${productName} from the ${categoryTitle} category. Could you please provide more details about pricing, availability, and specifications?`;
     const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/971526325959?text=${encodedMessage}`;
+    const whatsappUrl = `https://wa.me/+971503800249?text=${encodedMessage}`;
     window.open(whatsappUrl, '_blank');
   };
 
@@ -325,9 +344,8 @@ const ProductsPage = () => {
                           className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-3 rounded-lg font-semibold text-sm transition-all duration-300 hover:scale-105 flex items-center justify-center"
                         >
                           <MessageCircle className="w-4 h-4 mr-2" />
-                          Learn More or Get Qoute
+                          Learn More or Get Quote
                         </button>
-                       
                       </div>
                     </div>
                   </div>

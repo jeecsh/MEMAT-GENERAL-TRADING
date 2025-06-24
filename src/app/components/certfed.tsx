@@ -1,11 +1,14 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
-import { Shield, FileCheck, Truck } from 'lucide-react';
+import { Shield, FileCheck, Truck, Download, CheckCircle } from 'lucide-react';
 import createGlobe from 'cobe';
 
 const LegalCertificationsSection = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadComplete, setDownloadComplete] = useState(false);
+  
   interface LabelPosition {
     x: number;
     y: number;
@@ -25,6 +28,19 @@ const LegalCertificationsSection = () => {
   const globeRef = useRef<GlobeInstance | null>(null);
   const phiRef = useRef<number>(0);
   const lastInteractionTimeRef = useRef<number>(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Region data (lat, lng, color)
   const regions = [
@@ -45,6 +61,36 @@ const LegalCertificationsSection = () => {
       text: "Officially registered with commercial authorities, maintaining the highest standards of business integrity and regulatory compliance."
     }
   ];
+
+  // Download handler for your actual PDF file
+  const handleDownload = async () => {
+    if (isDownloading) return;
+    
+    setIsDownloading(true);
+    setDownloadComplete(false);
+    
+    try {
+      // Add a small delay for better UX
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      // Download your actual PDF file from the public folder
+      const link = document.createElement('a');
+      link.href = '/license.pdf'; // Your PDF file in public folder
+      link.download = 'legal-certifications.pdf'; // Name when downloaded
+      link.target = '_blank'; // Open in new tab (fixed)
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      setDownloadComplete(true);
+      setTimeout(() => setDownloadComplete(false), 3000);
+    } catch (error) {
+      console.error('Download failed:', error);
+      // You could add error state handling here if needed
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   // Helper function to convert hex to RGB
   const hexToRgb = (hex: string) => {
@@ -89,9 +135,10 @@ const LegalCertificationsSection = () => {
           pointerInteractionMovement.current *= 0.9;
           lastInteractionTimeRef.current = currentTime;
         }
-        // Auto-rotate only if no recent manual interaction (1.5 seconds grace period)
+        // Auto-rotate with different speeds for mobile vs desktop
         else if (currentTime - lastInteractionTimeRef.current > 1500) {
-          phiRef.current += 0.003;
+          // Slower rotation on mobile for better performance
+          phiRef.current += isMobile ? 0.001 : 0.003;
         }
         
         state.phi = phiRef.current;
@@ -147,7 +194,8 @@ const LegalCertificationsSection = () => {
       const pos = handlePointerEvent(e);
       if (pos) {
         const deltaX = pos.x - pointerDownPosition.current[0];
-        pointerInteractionMovement.current = deltaX * 0.008;
+        // Reduced sensitivity on mobile for better control
+        pointerInteractionMovement.current = deltaX * (isMobile ? 0.004 : 0.008);
         pointerDownPosition.current[0] = pos.x;
       }
     };
@@ -180,7 +228,7 @@ const LegalCertificationsSection = () => {
       document.removeEventListener('mousemove', onPointerMove);
       document.removeEventListener('touchmove', onPointerMove);
     };
-  }, [isPointerDown]);
+  }, [isPointerDown, isMobile]);
 
   // Helper function to convert lat/lng to 3D coordinates and project to 2D
   const project3DTo2D = (lat: number, lng: number, phi: number, canvasSize: number) => {
@@ -261,10 +309,44 @@ const LegalCertificationsSection = () => {
                 <span className="text-white font-medium tracking-wider text-sm">LEGAL & CERTIFICATIONS</span>
               </div>
               
-              <h2 className="text-4xl md:text-5xl font-black text-white mb-5">
-                Trusted &
-                <span className="block text-yellow-400">Certified</span>
-              </h2>
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+                <h2 className="text-4xl md:text-5xl font-black text-white">
+                  Trusted &
+                  <span className="block text-yellow-400">Certified</span>
+                </h2>
+                
+                {/* Modern Compact Download Button */}
+                <button
+                  onClick={handleDownload}
+                  disabled={isDownloading}
+                  className={`
+                    relative group bg-yellow-400/10 backdrop-blur-sm border border-yellow-400/30
+                    hover:bg-yellow-400/20 hover:border-yellow-400/50 text-yellow-400 font-semibold 
+                    py-2.5 px-4 rounded-lg transition-all duration-200 
+                    hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-yellow-400/10
+                    ${isDownloading ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}
+                    ${downloadComplete ? 'bg-green-400/10 border-green-400/30 text-green-400' : ''}
+                    min-w-[120px] h-10 flex items-center justify-center
+                  `}
+                >
+                  {downloadComplete ? (
+                    <div className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4" />
+                      <span className="text-sm">Done</span>
+                    </div>
+                  ) : isDownloading ? (
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-4 border border-yellow-400/60 border-t-yellow-400 rounded-full animate-spin"></div>
+                      <span className="text-sm">Loading</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center space-x-2 group-hover:space-x-2.5 transition-all">
+                      <Download className="w-4 h-4" />
+                      <span className="text-sm">PDF</span>
+                    </div>
+                  )}
+                </button>
+              </div>
             </div>
 
             {/* Certifications */}
@@ -292,7 +374,7 @@ const LegalCertificationsSection = () => {
                 <h3 className="text-lg font-bold text-white">Global Delivery Network</h3>
               </div>
                 <p className="text-base text-white font-medium">
-                &quot;We deliver to the Gulf States, Asia, and Africa&quot;
+                "We deliver to the Gulf States, Asia, and Africa"
               </p>
             </div>
 

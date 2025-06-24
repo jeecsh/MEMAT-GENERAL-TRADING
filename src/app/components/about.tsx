@@ -81,7 +81,7 @@ const AboutUsSection = () => {
   const startAutoSlide = () => {
     intervalRef.current = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % aboutContent.length);
-    }, 8000);
+    }, 3000);
   };
 
   const stopAutoSlide = () => {

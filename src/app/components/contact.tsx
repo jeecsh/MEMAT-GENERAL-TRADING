@@ -254,7 +254,7 @@ const ContactUs: React.FC = () => {
                 </div>
 
                 <a
-                  href="https://wa.me/971526325959"
+                  href="https://wa.me/+971503800249"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group inline-flex items-center justify-center bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-green-400/25 w-full"
@@ -270,7 +270,7 @@ const ContactUs: React.FC = () => {
               <div className="border-t border-neutral-700/50 pt-8 space-y-4">
                 <div className="flex items-center justify-center space-x-4 text-neutral-400">
                   <Phone size={18} />
-                  <span>+971 52 632 5959</span>
+                  <span>+971 503800249</span>
                 </div>
                 <div className="flex items-center justify-center space-x-4 text-neutral-400">
                   <Mail size={18} />
