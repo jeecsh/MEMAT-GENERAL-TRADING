@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Mail, Phone, Send, MessageCircle, CheckCircle, User, AtSign } from "lucide-react";
+import { useTranslation } from "../hooks/useTranslation";
 
 interface MousePosition {
   x: number;
@@ -8,6 +9,7 @@ interface MousePosition {
 }
 
 const ContactUs: React.FC = () => {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 0, y: 0 });
   const [formData, setFormData] = useState({
@@ -93,17 +95,17 @@ const ContactUs: React.FC = () => {
         >
           <div className="inline-flex items-center mb-8 bg-gradient-to-r from-neutral-900/90 to-neutral-800/90 backdrop-blur-md px-8 py-3 rounded-full border border-yellow-400/20 shadow-xl">
             <div className="w-3 h-3 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full mr-3 animate-pulse shadow-yellow-400/50 shadow-lg"></div>
-            <span className="text-white font-semibold tracking-widest text-sm uppercase">Contact Us</span>
+            <span className="text-white font-semibold tracking-widest text-sm uppercase">{t('contact.title')}</span>
           </div>
 
           <h1 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight">
-            Let&apos;s Start a
+            {t('contact.subtitle').split(' ')[0]}
             <span className="block bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 bg-clip-text text-transparent animate-gradient">
-              Conversation
+              {t('contact.subtitle').split(' ').slice(1).join(' ')}
             </span>
           </h1>
           <p className="text-xl text-neutral-300 max-w-3xl mx-auto leading-relaxed">
-            Ready to transform your business? Reach out and let&apos;s discuss how we can help you achieve your goals.
+            {t('contact.ready')}
           </p>
         </div>
 
@@ -122,8 +124,8 @@ const ContactUs: React.FC = () => {
                   <Mail className="text-black" size={20} />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-white">Send us a Message</h3>
-                  <p className="text-neutral-400">We&apos;ll get back to you within 24 hours</p>
+                  <h3 className="text-2xl font-bold text-white">{t('contact.cta')}</h3>
+                  <p className="text-neutral-400">{t('contact.response')}</p>
                 </div>
               </div>
             </div>
@@ -141,7 +143,7 @@ const ContactUs: React.FC = () => {
                 <div className="space-y-2">
                   <label htmlFor="name" className="flex items-center text-neutral-300 text-sm font-medium space-x-2">
                     <User size={16} />
-                    <span>Full Name</span>
+                    <span>{t('contact.form.name.label')}</span>
                   </label>
                   <input
                     type="text"
@@ -151,7 +153,7 @@ const ContactUs: React.FC = () => {
                     onChange={handleChange}
                     onFocus={() => setFocusedField("name")}
                     onBlur={() => setFocusedField("")}
-                    placeholder="Enter your full name"
+                    placeholder={t('contact.form.name.placeholder')}
                     className={inputClasses("name")}
                     required
                   />
@@ -160,7 +162,7 @@ const ContactUs: React.FC = () => {
                 <div className="space-y-2">
                   <label htmlFor="email" className="flex items-center text-neutral-300 text-sm font-medium space-x-2">
                     <AtSign size={16} />
-                    <span>Email Address</span>
+                    <span>{t('contact.form.email.label')}</span>
                   </label>
                   <input
                     type="email"
@@ -170,7 +172,7 @@ const ContactUs: React.FC = () => {
                     onChange={handleChange}
                     onFocus={() => setFocusedField("email")}
                     onBlur={() => setFocusedField("")}
-                    placeholder="Enter your email address"
+                    placeholder={t('contact.form.email.placeholder')}
                     className={inputClasses("email")}
                     required
                   />
@@ -179,7 +181,7 @@ const ContactUs: React.FC = () => {
                 <div className="space-y-2">
                   <label htmlFor="message" className="flex items-center text-neutral-300 text-sm font-medium space-x-2">
                     <MessageCircle size={16} />
-                    <span>Your Message</span>
+                    <span>{t('contact.form.message.label')}</span>
                   </label>
                   <textarea
                     id="message"
@@ -189,7 +191,7 @@ const ContactUs: React.FC = () => {
                     onChange={handleChange}
                     onFocus={() => setFocusedField("message")}
                     onBlur={() => setFocusedField("")}
-                    placeholder="Tell us about your project or inquiry&hellip;"
+                    placeholder={t('contact.form.message.placeholder')}
                     className={inputClasses("message")}
                     required
                   />
@@ -210,7 +212,7 @@ const ContactUs: React.FC = () => {
                     ) : (
                       <>
                         <Send size={20} />
-                        <span>Send Message</span>
+                        <span>{t('contact.form.submit')}</span>
                       </>
                     )}
                   </div>
@@ -232,24 +234,24 @@ const ContactUs: React.FC = () => {
                 </div>
                 
                 <div>
-                  <h3 className="text-3xl font-bold text-white mb-3">Instant Support</h3>
+                  <h3 className="text-3xl font-bold text-white mb-3">{t('support.instant.title')}</h3>
                   <p className="text-neutral-400 text-lg leading-relaxed">
-                    Need immediate assistance? Chat with us on WhatsApp for real-time support and quick responses.
+  {t('support.instant.description')}
                   </p>
                 </div>
 
                 <div className="space-y-4 text-left bg-neutral-800/30 rounded-2xl p-6">
                   <div className="flex items-center space-x-3">
                     <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                    <span className="text-neutral-300">Available 24/7</span>
+                    <span className="text-neutral-300">  {t('support.available')}</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                    <span className="text-neutral-300">Instant responses</span>
+                    <span className="text-neutral-300">  {t('support.responses')}</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                    <span className="text-neutral-300">Direct line to our team</span>
+                    <span className="text-neutral-300">  {t('support.directLine')}</span>
                   </div>
                 </div>
 
@@ -261,7 +263,7 @@ const ContactUs: React.FC = () => {
                 >
                   <div className="flex items-center space-x-3">
                     <MessageCircle size={24} />
-                    <span>Start WhatsApp Chat</span>
+                    <span>  {t('support.startChat')}</span>
                   </div>
                 </a>
               </div>

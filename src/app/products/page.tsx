@@ -1,13 +1,15 @@
 "use client";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { Sun, Wrench, Building, Shield, ArrowRight, Phone, Mail, MessageCircle, Menu, X } from 'lucide-react';
 import Navbar from "../components/navbar";
 import { useSearchParams } from 'next/navigation';
+import { useTranslation } from '../hooks/useTranslation';
 
 // Main Products Page Component
-const ProductsPage = () => {
+const ProductsPageContent = () => {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get('category');
+  const { t } = useTranslation();
   
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
@@ -16,131 +18,132 @@ const ProductsPage = () => {
   const categories = [
     {
       id: 'solar',
-      title: 'Solar Energy',
-      subtitle: 'Sustainable Power Solutions',
+      title: t('productsPage.categories.solar.title'),
+      subtitle: t('productsPage.categories.solar.subtitle'),
       icon: Sun,
       color: 'from-yellow-400 to-orange-500',
       bgColor: 'bg-gradient-to-br from-yellow-400/10 to-orange-500/10',
       products: [
         {
-          name: 'Premium Solar Panels',
-          description: 'High-efficiency photovoltaic panels for maximum energy conversion with advanced silicon technology and weather-resistant design.',
-          features: ['25-year warranty', 'High efficiency rating', 'Weather resistant', 'Easy installation'],
+          name: t('productsPage.categories.solar.products.panels.name'),
+          description: t('productsPage.categories.solar.products.panels.description'),
+          features: t('productsPage.categories.solar.products.panels.features'),
           image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=500&h=300&fit=crop'
         },
         {
-          name: 'Smart Inverters',
-          description: 'Advanced power conversion technology with monitoring capabilities and smart grid integration for optimal performance.',
-          features: ['Smart monitoring', 'Grid integration', 'High conversion rate', 'Remote control'],
+          name: t('productsPage.categories.solar.products.inverters.name'),
+          description: t('productsPage.categories.solar.products.inverters.description'),
+          features: t('productsPage.categories.solar.products.inverters.features'),
           image: 'inverters.jpg'
         },
         {
-          name: 'Energy Storage Batteries',
-          description: 'Long-lasting lithium batteries for reliable energy storage with advanced battery management systems.',
-          features: ['Long lifespan', 'Fast charging', 'Safe operation', 'Scalable capacity'],
+          name: t('productsPage.categories.solar.products.batteries.name'),
+          description: t('productsPage.categories.solar.products.batteries.description'),
+          features: t('productsPage.categories.solar.products.batteries.features'),
           image: 'batt.avif'
         }
       ]
     },
     {
       id: 'raw',
-      title: 'Raw Materials',
-      subtitle: 'Industrial Grade Components',
+      title: t('productsPage.categories.raw.title'),
+      subtitle: t('productsPage.categories.raw.subtitle'),
       icon: Wrench,
       color: 'from-gray-400 to-gray-600',
       bgColor: 'bg-gradient-to-br from-gray-400/10 to-gray-600/10',
       products: [
         {
-          name: 'Industrial Inputs',
-          description: 'Premium quality materials for manufacturing processes with consistent quality and reliable supply chain.',
-          features: ['Consistent quality', 'Reliable supply', 'Bulk availability', 'Quality certified'],
+          name: t('productsPage.categories.raw.products.industrial.name'),
+          description: t('productsPage.categories.raw.products.industrial.description'),
+          features: t('productsPage.categories.raw.products.industrial.features'),
           image: 'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=500&h=300&fit=crop'
         },
         {
-          name: 'White Silica Sand',
-          description: 'High-purity silica sand for glass and construction applications with excellent chemical properties.',
-          features: ['High purity', 'Consistent grain size', 'Low impurities', 'Multiple grades'],
+          name: t('productsPage.categories.raw.products.silica.name'),
+          description: t('productsPage.categories.raw.products.silica.description'),
+          features: t('productsPage.categories.raw.products.silica.features'),
           image: 'rmla.jpg'
         },
         {
-          name: 'Gabbro Stone',
-          description: 'Durable igneous rock for construction and road building with excellent strength and durability.',
-          features: ['High durability', 'Excellent strength', 'Weather resistant', 'Various sizes'],
+          name: t('productsPage.categories.raw.products.gabbro.name'),
+          description: t('productsPage.categories.raw.products.gabbro.description'),
+          features: t('productsPage.categories.raw.products.gabbro.features'),
           image: 'gabro.jpg'
         }
       ]
     },
     {
       id: 'construction',
-      title: 'Construction Materials',
-      subtitle: 'Complete Building Solutions',
+      title: t('productsPage.categories.construction.title'),
+      subtitle: t('productsPage.categories.construction.subtitle'),
       icon: Building,
       color: 'from-blue-400 to-purple-500',
       bgColor: 'bg-gradient-to-br from-blue-400/10 to-purple-500/10',
       products: [
         {
-          name: 'Premium Paints',
-          description: 'High-quality interior and exterior paints with durability and excellent coverage for all surfaces.',
-          features: ['Long-lasting finish', 'Excellent coverage', 'Eco-friendly', 'Multiple colors'],
+          name: t('productsPage.categories.construction.products.paints.name'),
+          description: t('productsPage.categories.construction.products.paints.description'),
+          features: t('productsPage.categories.construction.products.paints.features'),
           image: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=500&h=300&fit=crop'
         },
         {
-          name: 'Ceramic & Floor Finishing',
-          description: 'Elegant tiles and finishing materials for modern spaces with contemporary designs and durability.',
-          features: ['Modern designs', 'Easy maintenance', 'Slip resistant', 'Water resistant'],
+          name: t('productsPage.categories.construction.products.ceramic.name'),
+          description: t('productsPage.categories.construction.products.ceramic.description'),
+          features: t('productsPage.categories.construction.products.ceramic.features'),
           image: 'cer.webp'
         },
         {
-          name: 'Lighting & Chandeliers',
-          description: 'Sophisticated lighting solutions for residential and commercial use with energy-efficient technology.',
-          features: ['Energy efficient', 'Modern designs', 'Easy installation', 'Long lifespan'],
+          name: t('productsPage.categories.construction.products.lighting.name'),
+          description: t('productsPage.categories.construction.products.lighting.description'),
+          features: t('productsPage.categories.construction.products.lighting.features'),
           image: 'https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?w=500&h=300&fit=crop'
         },
         {
-          name: 'Glow-in-the-Dark Materials',
-          description: 'Phosphorescent materials for safety and decorative applications with long-lasting glow properties.',
-          features: ['Long-lasting glow', 'Safety approved', 'Easy application', 'Multiple colors'],
+          name: t('productsPage.categories.construction.products.glow.name'),
+          description: t('productsPage.categories.construction.products.glow.description'),
+          features: t('productsPage.categories.construction.products.glow.features'),
           image: 'glow.jpg'
         },
         {
-          name: 'Building Sand & Gravel',
-          description: 'Various grades of sand and gravel for construction projects with consistent quality and sizing.',
-          features: ['Consistent quality', 'Multiple grades', 'Clean materials', 'Bulk supply'],
+          name: t('productsPage.categories.construction.products.sand.name'),
+          description: t('productsPage.categories.construction.products.sand.description'),
+          features: t('productsPage.categories.construction.products.sand.features'),
           image: 'rmala.jpg'
         }
       ]
     },
     {
       id: 'traffic',
-      title: 'Traffic Safety',
-      subtitle: 'Road Safety Solutions',
+      title: t('productsPage.categories.traffic.title'),
+      subtitle: t('productsPage.categories.traffic.subtitle'),
       icon: Shield,
       color: 'from-red-400 to-pink-500',
       bgColor: 'bg-gradient-to-br from-red-400/10 to-pink-500/10',
       products: [
         {
-          name: 'Road Paints & Planning',
-          description: 'Professional road marking paints and planning services with high visibility and durability.',
-          features: ['High visibility', 'Weather resistant', 'Fast drying', 'Long-lasting'],
+          name: t('productsPage.categories.traffic.products.roadPaints.name'),
+          description: t('productsPage.categories.traffic.products.roadPaints.description'),
+          features: t('productsPage.categories.traffic.products.roadPaints.features'),
           image: 'road.jpg'
         },
         {
-          name: 'Traffic Signs',
-          description: 'Complete range of warning, work-site, and guidance signs with reflective materials for safety.',
-          features: ['Reflective materials', 'Weather resistant', 'Easy installation', 'Standard compliant'],
+          name: t('productsPage.categories.traffic.products.signs.name'),
+          description: t('productsPage.categories.traffic.products.signs.description'),
+          features: t('productsPage.categories.traffic.products.signs.features'),
           image: 'signs.jpg'
         },
         {
-          name: 'Safety Equipment',
-          description: 'Cones, bollards, cat eyes, and speed humps for road safety with high visibility design.',
-          features: ['High visibility', 'Durable materials', 'Easy deployment', 'Safety certified'],
+          name: t('productsPage.categories.traffic.products.safety.name'),
+          description: t('productsPage.categories.traffic.products.safety.description'),
+          features: t('productsPage.categories.traffic.products.safety.features'),
           image: 'safty.jpeg'
         },
         {
-          name: 'Reflective Solutions',
-          description: 'Reflective tapes, road studs, and LED signage systems for enhanced visibility and safety.',
-          features: ['Enhanced visibility', 'Energy efficient', 'Long lifespan', 'Easy maintenance'],
-          image: 'refff.avif'}
+          name: t('productsPage.categories.traffic.products.reflective.name'),
+          description: t('productsPage.categories.traffic.products.reflective.description'),
+          features: t('productsPage.categories.traffic.products.reflective.features'),
+          image: 'refff.avif'
+        }
       ]
     }
   ];
@@ -195,7 +198,9 @@ const ProductsPage = () => {
   }, []);
 
   const handleWhatsAppMessage = (categoryTitle: string, productName: string) => {
-    const message = `Hello! I'm interested in learning more about your ${productName} from the ${categoryTitle} category. Could you please provide more details about pricing, availability, and specifications?`;
+    const message = t('productsPage.whatsapp.message')
+      .replace('{productName}', productName)
+      .replace('{categoryTitle}', categoryTitle);
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/+971503800249?text=${encodedMessage}`;
     window.open(whatsappUrl, '_blank');
@@ -204,7 +209,7 @@ const ProductsPage = () => {
   const currentCategory = categories[activeCategory];
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className={`min-h-screen bg-black text-white `}>
       {/* Navbar */}
       <Navbar />
 
@@ -241,14 +246,14 @@ const ProductsPage = () => {
           }`}>
             <div className="inline-flex items-center mb-6 bg-neutral-900/70 backdrop-blur-sm px-6 py-2 rounded-full border border-neutral-800">
               <div className="w-2 h-2 bg-yellow-400 rounded-full mr-3 animate-pulse"></div>
-              <span className="text-white font-medium tracking-wider text-sm">ALL PRODUCTS</span>
+              <span className="text-white font-medium tracking-wider text-sm">{t('productsPage.header.badge')}</span>
             </div>
             
             <h1 className="text-4xl md:text-6xl font-black text-white mb-4">
-              Our <span className="text-yellow-400">Products</span>
+              {t('productsPage.header.title.prefix')} <span className="text-yellow-400">{t('productsPage.header.title.highlight')}</span>
             </h1>
             <p className="text-xl text-neutral-300 max-w-3xl mx-auto">
-              Explore our comprehensive range of premium products across all categories
+              {t('productsPage.header.description')}
             </p>
           </div>
 
@@ -299,7 +304,7 @@ const ProductsPage = () => {
                   </div>
                 </div>
                 <div className="bg-neutral-900/70 backdrop-blur-sm px-4 py-2 rounded-full border border-neutral-700">
-                  <span className="text-neutral-300 text-sm">{currentCategory.products.length} Products</span>
+               
                 </div>
               </div>
 
@@ -327,9 +332,9 @@ const ProductsPage = () => {
                       </p>
 
                       <div className="mb-6">
-                        <h4 className="text-sm font-semibold text-white mb-2">Key Features:</h4>
+                        <h4 className="text-sm font-semibold text-white mb-2">{t('productsPage.keyFeatures')}:</h4>
                         <div className="grid grid-cols-2 gap-2">
-                          {product.features.map((feature, idx) => (
+                          {Array.isArray(product.features) && product.features.map((feature, idx) => (
                             <div key={idx} className="flex items-center space-x-2">
                               <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
                               <span className="text-xs text-neutral-400">{feature}</span>
@@ -344,7 +349,7 @@ const ProductsPage = () => {
                           className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-3 rounded-lg font-semibold text-sm transition-all duration-300 hover:scale-105 flex items-center justify-center"
                         >
                           <MessageCircle className="w-4 h-4 mr-2" />
-                          Learn More or Get Quote
+                          {t('productsPage.cta.button')}
                         </button>
                       </div>
                     </div>
@@ -360,20 +365,20 @@ const ProductsPage = () => {
           }`}>
             <div className="bg-gradient-to-r from-neutral-900/80 to-neutral-800/80 backdrop-blur-sm border border-neutral-700 rounded-3xl p-8 max-w-4xl mx-auto">
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                Need Help Finding the Right <span className="text-yellow-400">Product</span>?
+                {t('productsPage.contactSection.title.prefix')} <span className="text-yellow-400">{t('productsPage.contactSection.title.highlight')}</span>?
               </h3>
               <p className="text-lg text-neutral-300 mb-6">
-                Our experts are ready to help you choose the perfect solution for your needs.
+                {t('productsPage.contactSection.subtitle')}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button className="bg-yellow-400 hover:bg-yellow-500 text-black px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center">
                   <Phone className="w-5 h-5 mr-2" />
-                  Call Now
+                  {t('productsPage.contactSection.callButton')}
                 </button>
                 <button className="border border-neutral-600 hover:border-yellow-400 text-white hover:text-yellow-400 px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-yellow-400/10 flex items-center justify-center">
                   <Mail className="w-5 h-5 mr-2" />
-                  Email Us
+                  {t('productsPage.contactSection.emailButton')}
                 </button>
               </div>
             </div>
@@ -381,6 +386,19 @@ const ProductsPage = () => {
         </div>
       </main>
     </div>
+  );
+};
+
+// Wrapper component with Suspense
+const ProductsPage = () => {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="animate-pulse text-yellow-400 text-lg">Loading products...</div>
+      </div>
+    }>
+      <ProductsPageContent />
+    </Suspense>
   );
 };
 

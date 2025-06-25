@@ -1,8 +1,10 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { useTranslation } from '../hooks/useTranslation';
 
 const TradingCompanyHero = () => {
+  const { t } = useTranslation();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
   const [excellenceText, setExcellenceText] = useState('');
@@ -11,8 +13,8 @@ const TradingCompanyHero = () => {
   const [showCursor2, setShowCursor2] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
 
-  const excellenceWords = ['EXCELLENCE', 'QUALITY', 'AUTHENTICITY', 'RELIABILITY'];
-  const taglineString = ' Solar Energy, Construction Materials, Raw Materials & Traffic Safety Solutions';
+  const excellenceWords = t('hero.excellence');
+  const taglineString = t('hero.tagline');
 
   useEffect(() => {
     setIsLoaded(true);
@@ -164,7 +166,7 @@ const TradingCompanyHero = () => {
           {/* Gulf Trading identity */}
           <div className="inline-flex items-center mb-6 bg-neutral-900/70 backdrop-blur-sm px-8 py-3 rounded-full border border-neutral-800">
             <div className="w-2 h-2 bg-yellow-400 rounded-full mr-4 animate-pulse"></div>
-            <span className="text-white font-medium tracking-widest text-sm">MEMAT GENERAL TRADING</span>
+            <span className="text-white font-medium tracking-widest text-sm">{t('hero.company')}</span>
             <div className="w-2 h-2 bg-yellow-400 rounded-full ml-4 animate-pulse"></div>
           </div>
           
@@ -180,7 +182,7 @@ const TradingCompanyHero = () => {
         {/* Trading focus tagline with typing animation */}
         <div className="mb-12 min-h-[120px] flex items-center justify-center">
           <p className="text-2xl md:text-3xl text-white font-light max-w-4xl mx-auto leading-relaxed">
-            Premium {renderTaglineWithHighlight(taglineText)}
+         {t('hero.tagline')}
             <span className={`${showCursor2 ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100`}>|</span>
           </p>
         </div>
@@ -192,7 +194,7 @@ const TradingCompanyHero = () => {
             className="relative inline-block bg-yellow-400 hover:bg-yellow-500 text-black px-12 py-5 rounded-full font-bold text-xl transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-yellow-400/30 overflow-hidden"
           >
             <span className="relative z-10 flex items-center">
-              Discover Products
+              {t('hero.cta')}
               <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform duration-300" size={24} />
             </span>
             
@@ -202,20 +204,21 @@ const TradingCompanyHero = () => {
         </div>
 
         {/* Simple stats with Gulf region focus */}
-        <div className="flex justify-center space-x-12 text-center">
+        <div className="flex justify-center mb-3
+         space-x-12 text-center">
           <div className="group">
-            <div className="text-3xl font-bold text-white group-hover:text-yellow-400 transition-colors">500+</div>
-            <div className="text-neutral-400 text-sm">Products</div>
+            <div className="text-3xl font-bold text-white group-hover:text-yellow-400 transition-colors">{t('hero.stats.products')}</div>
+            <div className="text-neutral-400 text-sm">&nbsp;</div>
           </div>
           <div className="w-px h-12 bg-neutral-800"></div>
           <div className="group">
-            <div className="text-3xl font-bold text-white group-hover:text-yellow-400 transition-colors">15+</div>
-            <div className="text-neutral-400 text-sm">Years</div>
+            <div className="text-3xl font-bold text-white group-hover:text-yellow-400 transition-colors">{t('hero.stats.years')}</div>
+            <div className="text-neutral-400 text-sm">&nbsp;</div>
           </div>
           <div className="w-px h-12 bg-neutral-800"></div>
           <div className="group">
-            <div className="text-3xl font-bold text-white group-hover:text-yellow-400 transition-colors">Gulf</div>
-            <div className="text-neutral-400 text-sm">Region</div>
+            <div className="text-3xl font-bold text-white group-hover:text-yellow-400 transition-colors">{t('hero.stats.region')}</div>
+            <div className="text-neutral-400 text-sm">&nbsp;</div>
           </div>
         </div>
       </div>

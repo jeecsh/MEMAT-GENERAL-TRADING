@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { Menu, X, Download, FileText } from 'lucide-react';
 import { gsap } from 'gsap';
 import { usePathname, useRouter } from 'next/navigation';
+import { useTranslation } from '../hooks/useTranslation';
+import { LanguageSwitch } from './LanguageSwitch';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,12 +34,14 @@ const Navbar = () => {
     }));
   });
 
+  const { t } = useTranslation();
+
   // PDF download items
   const pdfItems = [
-    { name: 'Company Catalog', filename: 'company-MematDEYEProductsCatalogue.pdf' },
-    { name: 'Solar Energy Catalog', filename: 'productMematSolarEnergyCOMPANYPROFILE.pdf' },
-    { name: 'Glow in the Dark COMPANY', filename: 'MematGlowintheDarkCOMPANYPROFILE.pdf' },
-    { name: 'Terms & Conditions', filename: 'termsMematTrafficSafetyCOMPANYPROFILE.pdf' }
+    { name: t('downloads.catalog'), filename: 'DEYEProductsCatalogue.pdf' },
+    { name: t('downloads.solar'), filename: 'MematSolarEnergyCOMPANYPROFILE.pdf' },
+    { name: t('downloads.glow'), filename: 'MematGlowintheDarkCOMPANYPROFILE.pdf' },
+    { name: t('downloads.terms'), filename: 'MematTrafficSafetyCOMPANYPROFILE.pdf' }
   ];
 
   useEffect(() => {
@@ -177,7 +181,7 @@ const Navbar = () => {
     
     // Create a temporary link element for download simulation
     const link = document.createElement('a');
-    link.href = `/pdfs/${filename}`; // Adjust path as needed
+ link.href = `${window.location.origin}/${filename}`;// Adjust path as needed
     link.download = filename;
     document.body.appendChild(link);
     link.click();
@@ -216,11 +220,11 @@ const Navbar = () => {
   };
 
   const navItems = [
-    { name: 'Home', href: '#hero', id: 'hero' },
-    { name: 'About Us', href: '#about', id: 'about' },
-    { name: 'Coverage & Delivery', href: '#certfed', id: 'certfed' },
-    { name: 'Products', href: '#products', id: 'products' },
-    { name: 'Contact Us', href: '#contact', id: 'contact' }
+    { name: t('nav.home'), href: '#hero', id: 'hero' },
+    { name: t('nav.about'), href: '#about', id: 'about' },
+    { name: t('nav.coverage'), href: '#certfed', id: 'certfed' },
+    { name: t('nav.products'), href: '#products', id: 'products' },
+    { name: t('nav.contact'), href: '#contact', id: 'contact' }
   ];
 
   return (
@@ -301,6 +305,9 @@ const Navbar = () => {
             </div>
 
             <div className="flex items-center space-x-4">
+              {/* Language Switch */}
+              <LanguageSwitch />
+              
               {/* Download Button */}
               <div className="relative" ref={downloadMenuRef}>
                 <button
@@ -322,7 +329,7 @@ const Navbar = () => {
                 >
                   <div className="py-2">
                     <div className="px-4 py-2 text-xs font-semibold text-yellow-400 uppercase tracking-wider border-b border-yellow-400/20">
-                      Download Resources
+                      {t('downloads.title')}
                     </div>
                     {pdfItems.map((item, index) => (
                       <button
@@ -406,7 +413,7 @@ const Navbar = () => {
          
             </div>
             <p className="mt-6 text-xs text-gray-500 text-center">
-              © {new Date().getFullYear()} Gulf Trading. All rights reserved.
+              {t('footer.copyright')}
             </p>
           </div>
         </nav>

@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Shield, FileCheck, Truck, Download, CheckCircle } from 'lucide-react';
 import createGlobe from 'cobe';
+import { useTranslation } from '../hooks/useTranslation';
 
 const LegalCertificationsSection = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -42,23 +43,25 @@ const LegalCertificationsSection = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  const { t } = useTranslation();
+
   // Region data (lat, lng, color)
   const regions = [
-    { lat: 25, lng: 50, color: '#fbbf24', name: "Gulf States" },  // Middle East
-    { lat: 35, lng: 105, color: '#f59e0b', name: "Asia" },        // East Asia
-    { lat: -8, lng: 20, color: '#eab308', name: "Africa" }        // Africa
+    { lat: 25, lng: 50, color: '#fbbf24', name: t('common.regions.gulf') },
+    { lat: 35, lng: 105, color: '#f59e0b', name: t('common.regions.asia') },
+    { lat: -8, lng: 20, color: '#eab308', name: t('common.regions.africa') }
   ];
 
   const certifications = [
     {
       icon: FileCheck,
-      title: "Trade License",
-      text: "Fully authorized operations with comprehensive trade license ensuring complete legal compliance across all business sectors."
+      title: t('certifications.license.title'),
+      text: t('certifications.license.description')
     },
     {
       icon: Shield,
-      title: "Commercial Register",
-      text: "Officially registered with commercial authorities, maintaining the highest standards of business integrity and regulatory compliance."
+      title: t('certifications.register.title'),
+      text: t('certifications.register.description')
     }
   ];
 
@@ -306,13 +309,12 @@ const LegalCertificationsSection = () => {
             <div className="mb-10">
               <div className="inline-flex items-center mb-5 bg-neutral-900/70 backdrop-blur-sm px-5 py-1.5 rounded-full border border-neutral-800">
                 <div className="w-2 h-2 bg-yellow-400 rounded-full mr-2 animate-pulse"></div>
-                <span className="text-white font-medium tracking-wider text-sm">LEGAL & CERTIFICATIONS</span>
+                <span className="text-white font-medium tracking-wider text-sm">{t('certifications.title')}</span>
               </div>
               
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
                 <h2 className="text-4xl md:text-5xl font-black text-white">
-                  Trusted &
-                  <span className="block text-yellow-400">Certified</span>
+                  {t('certifications.subtitle')} 
                 </h2>
                 
                 {/* Modern Compact Download Button */}
@@ -342,7 +344,7 @@ const LegalCertificationsSection = () => {
                   ) : (
                     <div className="flex items-center space-x-2 group-hover:space-x-2.5 transition-all">
                       <Download className="w-4 h-4" />
-                      <span className="text-sm">PDF</span>
+                      <span className="text-sm">{t('certifications.pdf')}</span>
                     </div>
                   )}
                 </button>
@@ -371,10 +373,10 @@ const LegalCertificationsSection = () => {
             <div className="bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 border border-yellow-400/30 rounded-xl p-5 mb-8">
               <div className="flex items-center space-x-3 mb-2">
                 <Truck className="w-5 h-5 text-yellow-400" />
-                <h3 className="text-lg font-bold text-white">Global Delivery Network</h3>
+                <h3 className="text-lg font-bold text-white">{t('certifications.delivery.title')}</h3>
               </div>
                 <p className="text-base text-white font-medium">
-                "We deliver to the Gulf States, Asia, and Africa"
+                {t('certifications.delivery.description')}
               </p>
             </div>
 
@@ -382,15 +384,15 @@ const LegalCertificationsSection = () => {
             <div className="grid grid-cols-3 gap-5 pt-7 border-t border-neutral-800">
               <div className="text-center group cursor-pointer">
                 <div className="text-2xl font-bold text-yellow-400 group-hover:scale-110 transition-transform">100%</div>
-                <div className="text-neutral-400 text-sm">Legal Compliance</div>
+                <div className="text-neutral-400 text-sm">{t('certifications.compliance')}</div>
               </div>
               <div className="text-center group cursor-pointer">
                 <div className="text-2xl font-bold text-yellow-400 group-hover:scale-110 transition-transform">3</div>
-                <div className="text-neutral-400 text-sm">Major Regions</div>
+                <div className="text-neutral-400 text-sm">{t('certifications.regions')}</div>
               </div>
               <div className="text-center group cursor-pointer">
                 <div className="text-2xl font-bold text-yellow-400 group-hover:scale-110 transition-transform">24/7</div>
-                <div className="text-neutral-400 text-sm">Global Support</div>
+                <div className="text-neutral-400 text-sm">{t('certifications.support')}</div>
               </div>
             </div>
           </div>

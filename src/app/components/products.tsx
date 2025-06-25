@@ -2,19 +2,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Sun, Wrench, Building, Shield, ArrowRight, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslation } from '../hooks/useTranslation';
 
 const ProductsOverview = () => {
+  const { t } = useTranslation();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
-  const categories = [
+  const categoryConfig = [
     {
       id: 'solar',
-      title: 'Solar Energy',
-      subtitle: 'Sustainable Power Solutions',
-      description: 'High-efficiency solar panels, smart inverters, and energy storage systems for complete renewable energy solutions.',
       icon: Sun,
       color: 'from-yellow-400 to-orange-500',
       bgGradient: 'from-yellow-400/10 to-orange-500/10',
@@ -23,9 +22,6 @@ const ProductsOverview = () => {
     },
     {
       id: 'raw',
-      title: 'Raw Materials',
-      subtitle: 'Industrial Grade Components',
-      description: 'Premium industrial inputs, white silica sand, and gabbro stone for manufacturing and construction applications.',
       icon: Wrench,
       color: 'from-gray-400 to-gray-600',
       bgGradient: 'from-gray-400/10 to-gray-600/10',
@@ -34,9 +30,6 @@ const ProductsOverview = () => {
     },
     {
       id: 'construction',
-      title: 'Construction Materials',
-      subtitle: 'Complete Building Solutions',
-      description: 'Premium paints, ceramic tiles, lighting systems, and specialized building materials for modern construction.',
       icon: Building,
       color: 'from-blue-400 to-purple-500',
       bgGradient: 'from-blue-400/10 to-purple-500/10',
@@ -45,9 +38,6 @@ const ProductsOverview = () => {
     },
     {
       id: 'traffic',
-      title: 'Traffic Safety',
-      subtitle: 'Road Safety Solutions',
-      description: 'Professional road marking paints, traffic signs, safety equipment, and reflective solutions for road safety.',
       icon: Shield,
       color: 'from-red-400 to-pink-500',
       bgGradient: 'from-red-400/10 to-pink-500/10',
@@ -119,24 +109,31 @@ const ProductsOverview = () => {
         }`}>
           <div className="inline-flex items-center mb-6 bg-neutral-900/70 backdrop-blur-sm px-6 py-2 rounded-full border border-neutral-800">
             <Sparkles className="w-4 h-4 text-yellow-400 mr-3 animate-pulse" />
-            <span className="text-white font-medium tracking-wider text-sm">OUR PRODUCTS</span>
+            <span className="text-white font-medium tracking-wider text-sm">{t('products.title')}</span>
           </div>
           
           <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
-            Premium <span className="text-yellow-400">Solutions</span>
+            {t('products.subtitle')}
           </h2>
           <p className="text-xl text-neutral-300 max-w-3xl mx-auto leading-relaxed">
-            Discover our comprehensive range of high-quality products across four key industries, 
-            each designed to meet the highest standards of excellence and reliability.
+            {t('products.description')}
           </p>
         </div>
+
+    
 
         {/* Categories Grid */}
         <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 transition-all duration-1000 delay-300 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
         }`}>
-          {categories.map((category, index) => {
-            const CategoryIcon = category.icon;
+          {categoryConfig.map((config, index) => {
+            const CategoryIcon = config.icon;
+            const category = {
+              ...config,
+              title: t(`products.sections.${config.id}.title`),
+              subtitle: t(`products.sections.${config.id}.subtitle`),
+              description: t(`products.sections.${config.id}.description`)
+            };
             return (
               <Link
                 href={`/products?category=${category.id}`}
@@ -168,9 +165,7 @@ const ProductsOverview = () => {
                       </div>
                       <div className="text-right">
                         <div className="bg-neutral-900/70 backdrop-blur-sm px-3 py-1 rounded-full border border-neutral-700">
-                          <span className="text-neutral-300 text-xs font-medium">
-                            {category.productCount} Products
-                          </span>
+                        
                         </div>
                       </div>
                     </div>
@@ -191,7 +186,7 @@ const ProductsOverview = () => {
                     {/* Action area */}
                     <div className="flex items-center justify-between mt-auto">
                       <div className="flex items-center text-yellow-400 font-medium text-sm group-hover:text-yellow-300 transition-colors duration-300">
-                        <span>Explore Products</span>
+                        <span>{t('common.products.explore')}</span>
                         <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
                       </div>
                       
@@ -215,16 +210,16 @@ const ProductsOverview = () => {
         }`}>
           <div className="bg-gradient-to-r from-neutral-900/80 to-neutral-800/80 backdrop-blur-sm border border-neutral-700 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
             <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Ready to Explore Our <span className="text-yellow-400">Products</span>?
+              {t('products.cta.title')}
             </h3>
             <p className="text-xl text-neutral-300 mb-8 max-w-2xl mx-auto">
-              Browse our complete catalog and discover detailed specifications, pricing, and availability for all our premium solutions.
+             {t('common.products.browse')}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link href="/products">
                 <button className="group bg-yellow-400 hover:bg-yellow-500 text-black px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 hover:scale-105 flex items-center">
-                  <span>View All Products</span>
+                  <span>{t('products.cta.button')}</span>
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
                 </button>
               </Link>

@@ -1,46 +1,28 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import { Award, Globe, Users, Target, Zap } from 'lucide-react';
+import { useTranslation } from '../hooks/useTranslation';
 
 const AboutUsSection = () => {
+  const { t } = useTranslation();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const aboutContent = [
-    {
-      icon: Globe,
-      title: "Gulf Market Leaders",
-      text: "Established as a premier trading company in the Gulf region, we've built strong partnerships across multiple industries, delivering excellence in every transaction.",
-      image: "/uae.jpg"
-    },
-    {
-      icon: Zap,
-      title: "Solar Energy Excellence",
-      text: "Leading the renewable energy revolution with cutting-edge solar panels, inverters, and battery solutions that power the future of sustainable energy.",
-      image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&h=400&fit=crop&crop=center"
-    },
-    {
-      icon: Target,
-      title: "Construction Innovation",
-      text: "From premium paints to advanced lighting solutions, we provide comprehensive construction materials that meet the highest quality standards in the industry.",
-      image: "/construction.jpg"
-    },
-    {
-      icon: Award,
-      title: "Quality Raw Materials",
-      text: "Sourcing and delivering the finest industrial inputs including white silica sand and gabbro, ensuring your projects have the strongest foundation.",
-      image: "/rmala.jpg"
-    },
-    {
-      icon: Users,
-      title: "Safety Solutions",
-      text: "Comprehensive traffic safety solutions including road paints, warning signs, and reflective materials that protect lives and ensure smooth transportation.",
-      image: "/signs.jpg"
-    }
-  ];
+  interface Slide {
+  title: string;
+  text: string;
+}
+
+const icons = [Globe, Zap, Target, Award, Users];
+  const aboutContent = (t('about.slides') as Slide[]).map((slide: Slide, index: number) => ({
+    icon: icons[index],
+    title: slide.title,
+    text: slide.text,
+    image: ["/uae.jpg", "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&h=400&fit=crop&crop=center", "/construction.jpg", "/rmala.jpg", "/signs.jpg"][index]
+  }));
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -134,12 +116,12 @@ const AboutUsSection = () => {
             <div className="mb-12">
               <div className="inline-flex items-center mb-6 bg-neutral-900/70 backdrop-blur-sm px-6 py-2 rounded-full border border-neutral-800">
                 <div className="w-2 h-2 bg-yellow-400 rounded-full mr-3 animate-pulse"></div>
-                <span className="text-white font-medium tracking-wider text-sm">ABOUT US</span>
+                <span className="text-white font-medium tracking-wider text-sm">{t('about.title')}</span>
               </div>
               
               <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
-                Building the
-                <span className="block text-yellow-400">Gulf&apos;s Future</span>
+                {t('about.subtitle').split(' ')[0]}
+                <span className="block text-yellow-400">{t('about.subtitle').split(' ').slice(1).join(' ')}</span>
               </h2>
             </div>
 
@@ -162,7 +144,7 @@ const AboutUsSection = () => {
 
               {/* Progress Indicators */}
               <div className="flex space-x-2 mt-8">
-                {aboutContent.map((_, index) => (
+                {aboutContent.map((_: unknown, index: number) => (
                   <div
                     key={index}
                     className={`h-1 rounded-full transition-all duration-500 ${
@@ -179,16 +161,16 @@ const AboutUsSection = () => {
               {/* Stats */}
               <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-neutral-800">
                 <div className="text-center group cursor-pointer">
-                  <div className="text-2xl font-bold text-yellow-400 group-hover:scale-110 transition-transform">Aiming for 1000+</div>
-                  <div className="text-neutral-400 text-sm">Homes to Power</div>
+                  <div className="text-2xl font-bold text-yellow-400 group-hover:scale-110 transition-transform">{t('about.stats.homes')}</div>
+                  <div className="text-neutral-400 text-sm">{t('about.stats.subtext.homes')}</div>
                 </div>
                 <div className="text-center group cursor-pointer">
-                  <div className="text-2xl font-bold text-yellow-400 group-hover:scale-110 transition-transform">Launching in 2025</div>
-                  <div className="text-neutral-400 text-sm">With Next-Gen Solar</div>
+                  <div className="text-2xl font-bold text-yellow-400 group-hover:scale-110 transition-transform">{t('about.stats.launch')}</div>
+                  <div className="text-neutral-400 text-sm">{t('about.stats.subtext.launch')}</div>
                 </div>
                 <div className="text-center group cursor-pointer">
-                  <div className="text-2xl font-bold text-yellow-400 group-hover:scale-110 transition-transform">Driven by Impact</div>
-                  <div className="text-neutral-400 text-sm">Not Just Profit</div>
+                  <div className="text-2xl font-bold text-yellow-400 group-hover:scale-110 transition-transform">{t('about.stats.impact')}</div>
+                  <div className="text-neutral-400 text-sm">{t('about.stats.subtext.impact')}</div>
                 </div>
               </div>
             </div>
