@@ -47,7 +47,7 @@ const Footer = () => {
     { 
       icon: Mail, 
       label: "Email",
-      text: "kh2005h@yahoo.com", 
+      text: "info@Memat-trading.com", 
       subtext: "We'll respond within 24 hours"
     }
   ];

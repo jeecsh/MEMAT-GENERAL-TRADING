@@ -156,46 +156,46 @@ const TradingCompanyHero = () => {
       
 
       {/* Main content */}
-      <div className={`text-center px-6 relative z-20 transition-all duration-1500 ${
+      <div className={`text-center px-6 sm:px-6 relative z-20 transition-all duration-1500 ${
         isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
       }`}>
         
         {/* Company branding */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           
           {/* Gulf Trading identity */}
-          <div className="inline-flex items-center mb-6 bg-neutral-900/70 backdrop-blur-sm px-8 py-3 rounded-full border border-neutral-800">
-            <div className="w-2 h-2 bg-yellow-400 rounded-full mr-4 animate-pulse"></div>
-            <span className="text-white font-medium tracking-widest text-sm">{t('hero.company')}</span>
-            <div className="w-2 h-2 bg-yellow-400 rounded-full ml-4 animate-pulse"></div>
+          <div className="inline-flex items-center mb-4 sm:mb-6 bg-neutral-900/70 backdrop-blur-sm px-4 sm:px-8 py-2 sm:py-3 rounded-full border border-neutral-800">
+            <div className="w-2 h-2 bg-yellow-400 rounded-full mr-3 sm:mr-4 animate-pulse"></div>
+            <span className="text-white font-medium tracking-widest text-xs sm:text-sm">{t('hero.company')}</span>
+            <div className="w-2 h-2 bg-yellow-400 rounded-full ml-3 sm:ml-4 animate-pulse"></div>
           </div>
           
-          <h1 className="text-6xl md:text-8xl font-black mb-6 relative min-h-[120px] flex items-center justify-center">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black mb-4 sm:mb-6 relative min-h-[80px] sm:min-h-[100px] md:min-h-[120px] flex items-center justify-center">
             <span className="text-white">
               {excellenceText}
               <span className={`${showCursor1 ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100`}>|</span>
             </span>
-            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-px bg-yellow-400"></div>
+            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 sm:w-20 md:w-24 h-px bg-yellow-400"></div>
           </h1>
         </div>
 
         {/* Trading focus tagline with typing animation */}
-        <div className="mb-12 min-h-[120px] flex items-center justify-center">
-          <p className="text-2xl md:text-3xl text-white font-light max-w-4xl mx-auto leading-relaxed">
+        <div className="mb-8 sm:mb-12 min-h-[80px] sm:min-h-[100px] md:min-h-[120px] flex items-center justify-center">
+          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white font-light max-w-4xl mx-auto leading-relaxed px-2 sm:px-2">
          {t('hero.tagline')}
             <span className={`${showCursor2 ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100`}>|</span>
           </p>
         </div>
 
         {/* CTA Button */}
-        <div className="group mb-16">
+        <div className="group mb-12 sm:mb-16">
           <a 
             href="#products"
-            className="relative inline-block bg-yellow-400 hover:bg-yellow-500 text-black px-12 py-5 rounded-full font-bold text-xl transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-yellow-400/30 overflow-hidden"
+            className="relative inline-block bg-yellow-400 hover:bg-yellow-500 text-black px-8 sm:px-12 py-4 sm:py-5 rounded-full font-bold text-lg sm:text-xl transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-yellow-400/30 overflow-hidden"
           >
             <span className="relative z-10 flex items-center">
               {t('hero.cta')}
-              <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform duration-300" size={24} />
+              <ArrowRight className="ml-2 sm:ml-3 group-hover:translate-x-2 transition-transform duration-300" size={20} />
             </span>
             
             {/* Button shine effect */}
@@ -204,30 +204,29 @@ const TradingCompanyHero = () => {
         </div>
 
         {/* Simple stats with Gulf region focus */}
-        <div className="flex justify-center mb-3
-         space-x-12 text-center">
+        <div className="flex justify-center items-center mb-3 space-x-8 sm:space-x-12 text-center">
           <div className="group">
-            <div className="text-3xl font-bold text-white group-hover:text-yellow-400 transition-colors">{t('hero.stats.products')}</div>
+            <div className="text-2xl sm:text-3xl font-bold text-white group-hover:text-yellow-400 transition-colors">{t('hero.stats.products')}</div>
             <div className="text-neutral-400 text-sm">&nbsp;</div>
           </div>
           <div className="w-px h-12 bg-neutral-800"></div>
           <div className="group">
-            <div className="text-3xl font-bold text-white group-hover:text-yellow-400 transition-colors">{t('hero.stats.years')}</div>
+            <div className="text-2xl sm:text-3xl font-bold text-white group-hover:text-yellow-400 transition-colors">{t('hero.stats.years')}</div>
             <div className="text-neutral-400 text-sm">&nbsp;</div>
           </div>
           <div className="w-px h-12 bg-neutral-800"></div>
           <div className="group">
-            <div className="text-3xl font-bold text-white group-hover:text-yellow-400 transition-colors">{t('hero.stats.region')}</div>
+            <div className="text-2xl sm:text-3xl font-bold text-white group-hover:text-yellow-400 transition-colors">{t('hero.stats.region')}</div>
             <div className="text-neutral-400 text-sm">&nbsp;</div>
           </div>
         </div>
       </div>
 
       {/* Corner brackets for modern framing */}
-      <div className="absolute top-8 left-8 w-8 h-8 border-l-2 border-t-2 border-neutral-800 z-30"></div>
-      <div className="absolute top-8 right-8 w-8 h-8 border-r-2 border-t-2 border-neutral-800 z-30"></div>
-      <div className="absolute bottom-8 left-8 w-8 h-8 border-l-2 border-b-2 border-neutral-800 z-30"></div>
-      <div className="absolute bottom-8 right-8 w-8 h-8 border-r-2 border-b-2 border-neutral-800 z-30"></div>
+      <div className="absolute top-4 sm:top-8 left-4 sm:left-8 w-6 sm:w-8 h-6 sm:h-8 border-l-2 border-t-2 border-neutral-800 z-30"></div>
+      <div className="absolute top-4 sm:top-8 right-4 sm:right-8 w-6 sm:w-8 h-6 sm:h-8 border-r-2 border-t-2 border-neutral-800 z-30"></div>
+      <div className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 w-6 sm:w-8 h-6 sm:h-8 border-l-2 border-b-2 border-neutral-800 z-30"></div>
+      <div className="absolute bottom-4 sm:bottom-8 right-4 sm:right-8 w-6 sm:w-8 h-6 sm:h-8 border-r-2 border-b-2 border-neutral-800 z-30"></div>
     </div>
   );
 };

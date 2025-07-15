@@ -7,7 +7,6 @@ import { useTranslation } from '../hooks/useTranslation';
 const ProductsOverview = () => {
   const { t } = useTranslation();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isVisible, setIsVisible] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -47,17 +46,6 @@ const ProductsOverview = () => {
   ];
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.3 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
     const handleMouseMove = (e: MouseEvent) => {
       const rect = sectionRef.current?.getBoundingClientRect();
       if (rect) {
@@ -71,7 +59,6 @@ const ProductsOverview = () => {
     window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
-      observer.disconnect();
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
@@ -104,9 +91,7 @@ const ProductsOverview = () => {
       <div className="container mx-auto px-6 relative z-10">
         
         {/* Section Header */}
-        <div className={`text-center mb-20 transition-all duration-1000 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
-        }`}>
+        <div className="text-center mb-20">
           <div className="inline-flex items-center mb-6 bg-neutral-900/70 backdrop-blur-sm px-6 py-2 rounded-full border border-neutral-800">
             <Sparkles className="w-4 h-4 text-yellow-400 mr-3 animate-pulse" />
             <span className="text-white font-medium tracking-wider text-sm">{t('products.title')}</span>
@@ -120,12 +105,8 @@ const ProductsOverview = () => {
           </p>
         </div>
 
-    
-
         {/* Categories Grid */}
-        <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 transition-all duration-1000 delay-300 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
-        }`}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {categoryConfig.map((config, index) => {
             const CategoryIcon = config.icon;
             const category = {
@@ -205,9 +186,7 @@ const ProductsOverview = () => {
         </div>
 
         {/* Call to Action */}
-        <div className={`text-center transition-all duration-1000 delay-700 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
-        }`}>
+        <div className="text-center">
           <div className="bg-gradient-to-r from-neutral-900/80 to-neutral-800/80 backdrop-blur-sm border border-neutral-700 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
             <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
               {t('products.cta.title')}

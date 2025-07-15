@@ -41,18 +41,31 @@ const ContactUs: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    
-    // Reset form after success animation
-    setTimeout(() => {
-      setFormData({ name: "", email: "", message: "" });
-      setIsSubmitted(false);
-    }, 3000);
+
+    try {
+      const response = await fetch('/api/sendemail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setTimeout(() => {
+          setFormData({ name: "", email: "", message: "" });
+          setIsSubmitted(false);
+        }, 3000);
+      } else {
+        // Handle error
+        console.error('Failed to send email');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const inputClasses = (fieldName: string) => `
@@ -130,15 +143,6 @@ const ContactUs: React.FC = () => {
               </div>
             </div>
 
-            {isSubmitted ? (
-              <div className="text-center py-12 space-y-4">
-                <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle className="text-green-400" size={40} />
-                </div>
-                <h4 className="text-2xl font-bold text-white">Message Sent!</h4>
-                  <p className="text-neutral-300">Thank you for reaching out. We&apos;ll be in touch soon.</p>
-              </div>
-            ) : (
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="space-y-2">
                   <label htmlFor="name" className="flex items-center text-neutral-300 text-sm font-medium space-x-2">
@@ -209,6 +213,11 @@ const ContactUs: React.FC = () => {
                         <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
                         <span>Sending...</span>
                       </>
+                    ) : isSubmitted ? (
+                      <>
+                        <CheckCircle size={20} />
+                        <span>Sent!</span>
+                      </>
                     ) : (
                       <>
                         <Send size={20} />
@@ -218,7 +227,6 @@ const ContactUs: React.FC = () => {
                   </div>
                 </button>
               </form>
-            )}
           </div>
 
           {/* Enhanced WhatsApp Section */}
@@ -276,7 +284,7 @@ const ContactUs: React.FC = () => {
                 </div>
                 <div className="flex items-center justify-center space-x-4 text-neutral-400">
                   <Mail size={18} />
-                  <span>kh2005h@yahoo.com</span>
+                  <span>info@Memat-trading.com</span>
                 </div>
               </div>
             </div>
