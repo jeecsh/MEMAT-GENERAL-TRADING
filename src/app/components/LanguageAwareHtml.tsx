@@ -16,11 +16,12 @@ export function LanguageAwareHtml({ children }: { children: React.ReactNode }) {
   const { language} = useTranslation();
   
   return (
-    <html lang={language} >
+    <html lang={language}>
       <body 
         className={`${geistSans.variable} ${geistMono.variable} antialiased ${
           language === "ar" ? "font-arabic" : ""
         }`}
+        suppressHydrationWarning={true}
       >
         {children}
       </body>

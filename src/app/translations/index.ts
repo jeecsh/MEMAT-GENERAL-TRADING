@@ -200,7 +200,7 @@ export const translations = {
       cta: "Discover Products",
       stats: {
         products: "500+ Products",
-        years: "15+ Years",
+        years: "3+ Years",
         region: "Gulf Region"
       }
     },

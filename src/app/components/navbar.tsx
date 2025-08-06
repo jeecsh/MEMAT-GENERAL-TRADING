@@ -7,6 +7,7 @@ import { gsap } from 'gsap';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslation } from '../hooks/useTranslation';
 import { LanguageSwitch } from './LanguageSwitch';
+import { ClientOnly } from './ClientOnly';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -68,79 +69,88 @@ const Navbar = () => {
 
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('mousedown', handleClickOutside);
-    
-    // Enhanced animation only on desktop
-    if (!isMobile && bgElements.length > 0) {
-      bgElementsRef.current.forEach((el, index) => {
-        if (!el || index >= bgElements.length) return;
-        
-        const element = bgElements[index];
-        const direction = Math.random() > 0.5 ? 1 : -1;
-        
-        gsap.set(el, {
-          x: gsap.utils.random(-element.xRange, element.xRange),
-          y: gsap.utils.random(-element.yRange, element.yRange),
-          opacity: element.opacity,
-          scale: gsap.utils.random(0.6, 1.4),
-          rotate: Math.random() * 360
-        });
-
-        const animateElement = () => {
-          // X and Y movement with boundary wrapping
-          gsap.to(el, {
-            x: `+=${direction * gsap.utils.random(element.xRange * 0.3, element.xRange)}`,
-            y: `+=${direction * gsap.utils.random(element.yRange * 0.3, element.yRange)}`,
-            duration: element.speed,
-            ease: "sine.inOut",
-            modifiers: {
-              x: x => {
-                const parsedX = parseFloat(x);
-                if (parsedX > element.xRange) return `-=${element.xRange * 2}`;
-                if (parsedX < -element.xRange) return `+=${element.xRange * 2}`;
-                return x;
-              },
-              y: y => {
-                const parsedY = parseFloat(y);
-                if (parsedY > element.yRange) return `-=${element.yRange * 2}`;
-                if (parsedY < -element.yRange) return `+=${element.yRange * 2}`;
-                return y;
-              }
-            },
-            onComplete: animateElement
-          });
-
-          // Continuous rotation
-          gsap.to(el, {
-            rotation: `+=${gsap.utils.random(90, 270)}`,
-            duration: element.speed * element.rotationSpeed,
-            ease: "none",
-            repeat: -1
-          });
-
-          // Scale and opacity pulsing
-          gsap.to(el, {
-            scale: gsap.utils.random(0.7, 1.3),
-            opacity: gsap.utils.random(element.opacity * 0.7, element.opacity * 1.3),
-            duration: element.speed * 0.8,
-            ease: "sine.inOut",
-            yoyo: true,
-            repeat: -1
-          });
-        };
-
-        gsap.delayedCall(element.delay, animateElement);
-      });
-    }
 
     return () => {
       window.removeEventListener('resize', checkMobile);
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen]);
+
+  // Separate effect for animations that runs after ClientOnly renders
+  useEffect(() => {
+    // Small delay to ensure ClientOnly has rendered the elements
+    const animationTimer = setTimeout(() => {
+      if (!isMobile && bgElements.length > 0) {
+        bgElementsRef.current.forEach((el, index) => {
+          if (!el || index >= bgElements.length) return;
+          
+          const element = bgElements[index];
+          const direction = Math.random() > 0.5 ? 1 : -1;
+          
+          gsap.set(el, {
+            x: gsap.utils.random(-element.xRange, element.xRange),
+            y: gsap.utils.random(-element.yRange, element.yRange),
+            opacity: element.opacity,
+            scale: gsap.utils.random(0.6, 1.4),
+            rotate: Math.random() * 360
+          });
+
+          const animateElement = () => {
+            // X and Y movement with boundary wrapping
+            gsap.to(el, {
+              x: `+=${direction * gsap.utils.random(element.xRange * 0.3, element.xRange)}`,
+              y: `+=${direction * gsap.utils.random(element.yRange * 0.3, element.yRange)}`,
+              duration: element.speed,
+              ease: "sine.inOut",
+              modifiers: {
+                x: x => {
+                  const parsedX = parseFloat(x);
+                  if (parsedX > element.xRange) return `-=${element.xRange * 2}`;
+                  if (parsedX < -element.xRange) return `+=${element.xRange * 2}`;
+                  return x;
+                },
+                y: y => {
+                  const parsedY = parseFloat(y);
+                  if (parsedY > element.yRange) return `-=${element.yRange * 2}`;
+                  if (parsedY < -element.yRange) return `+=${element.yRange * 2}`;
+                  return y;
+                }
+              },
+              onComplete: animateElement
+            });
+
+            // Continuous rotation
+            gsap.to(el, {
+              rotation: `+=${gsap.utils.random(90, 270)}`,
+              duration: element.speed * element.rotationSpeed,
+              ease: "none",
+              repeat: -1
+            });
+
+            // Scale and opacity pulsing
+            gsap.to(el, {
+              scale: gsap.utils.random(0.7, 1.3),
+              opacity: gsap.utils.random(element.opacity * 0.7, element.opacity * 1.3),
+              duration: element.speed * 0.8,
+              ease: "sine.inOut",
+              yoyo: true,
+              repeat: -1
+            });
+          };
+
+          gsap.delayedCall(element.delay, animateElement);
+        });
+      }
+    }, 100); // Small delay to ensure elements are rendered
+
+    return () => {
+      clearTimeout(animationTimer);
       bgElementsRef.current.forEach(el => {
         if (el) gsap.killTweensOf(el);
       });
     };
-  }, [bgElements, isMobile, isMenuOpen]);
+  }, [bgElements, isMobile]);
 
   const toggleMenu = () => {
     if (isMenuOpen) {
@@ -239,36 +249,38 @@ const Navbar = () => {
           scrolled ? 'bg-black/95 backdrop-blur-md' : 'bg-transparent'
         }`}></div>
 
-        {/* Enhanced floating balls */}
-        {!isMobile && bgElements.length > 0 && (
-          <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
-            {bgElements.map((element, i) => {
-              const colorClass = element.colorVariation > 0.7 
-                ? 'from-yellow-400/50 to-yellow-600/50' 
-                : element.colorVariation > 0.4 
+        {/* Enhanced floating balls - Client-side only to prevent hydration issues */}
+        <ClientOnly>
+          {!isMobile && bgElements.length > 0 && (
+            <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
+              {bgElements.map((element, i) => {
+                const colorClass = element.colorVariation > 0.7 
                   ? 'from-yellow-400/50 to-yellow-600/50' 
-                  : 'from-yellow-400/50 to-yellow-600/50';
-              
-              return (
-                <div
-                  key={element.id}
-                  ref={(el: HTMLDivElement | null) => {
-                    if (bgElementsRef.current) bgElementsRef.current[i] = el;
-                  }}
-                  className={`absolute rounded-full bg-gradient-to-br ${colorClass} pointer-events-none`}
-                  style={{
-                    width: `${element.size}px`,
-                    height: `${element.size}px`,
-                    opacity: element.opacity,
-                    filter: 'blur(1px)',
-                    willChange: 'transform, opacity, rotate',
-                    mixBlendMode: 'screen'
-                  }}
-                />
-              );
-            })}
-          </div>
-        )}
+                  : element.colorVariation > 0.4 
+                    ? 'from-yellow-400/50 to-yellow-600/50' 
+                    : 'from-yellow-400/50 to-yellow-600/50';
+                
+                return (
+                  <div
+                    key={element.id}
+                    ref={(el: HTMLDivElement | null) => {
+                      if (bgElementsRef.current) bgElementsRef.current[i] = el;
+                    }}
+                    className={`absolute rounded-full bg-gradient-to-br ${colorClass} pointer-events-none`}
+                    style={{
+                      width: `${element.size}px`,
+                      height: `${element.size}px`,
+                      opacity: element.opacity,
+                      filter: 'blur(1px)',
+                      willChange: 'transform, opacity, rotate',
+                      mixBlendMode: 'screen'
+                    }}
+                  />
+                );
+              })}
+            </div>
+          )}
+        </ClientOnly>
 
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full relative z-30">
           <div className="flex items-center justify-between h-full">
