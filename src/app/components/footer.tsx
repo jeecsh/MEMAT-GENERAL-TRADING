@@ -5,6 +5,7 @@ import {
   Phone,
   Mail,
   Linkedin,
+  Facebook,
   Send,
   ArrowRight
 } from 'lucide-react';
@@ -159,22 +160,32 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* LinkedIn CTA */}
+            {/* Social Media CTA */}
             <div className={`transition-all duration-1000 delay-400 ${
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
             }`}>
               <div className="mt-8 p-6 bg-gradient-to-br from-neutral-900/60 to-neutral-900/30 backdrop-blur-sm rounded-2xl border border-neutral-800">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="text-white font-semibold mb-2">{t('footer.social.linkedin')}</h4>
+                    <h4 className="text-white font-semibold mb-2">Follow Us</h4>
+                    <p className="text-neutral-400 text-sm">Connect with us on social media</p>
                   </div>
-                  <a
-                    href="#"
-                    className="group flex items-center gap-2 bg-yellow-400/10 hover:bg-yellow-400/20 px-4 py-3 rounded-xl border border-yellow-400/30 hover:border-yellow-400/50 transition-all duration-300 hover:scale-105"
-                  >
-                    <Linkedin className="w-5 h-5 text-yellow-400" />
-                    <span className="text-yellow-400 font-medium text-sm">LinkedIn</span>
-                  </a>
+                  <div className="flex gap-3">
+                   <a
+                      href="#"
+                      className="group flex items-center gap-2 bg-yellow-400/10 hover:bg-yellow-400/20 px-4 py-3 rounded-xl border border-yellow-400/30 hover:border-yellow-400/50 transition-all duration-300 hover:scale-105"
+                    >
+                      <Facebook className="w-5 h-5 text-yellow-400" />
+                      <span className="text-yellow-400 font-medium text-sm">Facebook</span>
+                    </a>
+                    <a
+                      href="#"
+                      className="group flex items-center gap-2 bg-yellow-400/10 hover:bg-yellow-400/20 px-4 py-3 rounded-xl border border-yellow-400/30 hover:border-yellow-400/50 transition-all duration-300 hover:scale-105"
+                    >
+                      <Linkedin className="w-5 h-5 text-yellow-400" />
+                      <span className="text-yellow-400 font-medium text-sm">LinkedIn</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -193,7 +204,7 @@ const Footer = () => {
                       <h3 className="text-xl sm:text-2xl font-semibold text-white">{t('footer.location.title')}</h3>
                       <div className="flex items-center gap-2 text-neutral-400">
                         <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-                        <span className="text-sm">Al Fahidi, Dubai</span>
+                        <span className="text-sm">Al Garhoud, Dubai</span>
                       </div>
                     </div>
                     
@@ -202,7 +213,7 @@ const Footer = () => {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10 pointer-events-none"></div>
                       
                       <iframe
-                        src="https://maps.google.com/maps?q=25.2631386,55.2962885&z=15&output=embed"
+                       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.4994554220166!2d55.334707111225605!3d25.25377877758151!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5db31281cf57%3A0xbbc0df0714306b52!2sMemat%20for%20General%20Trading%20L.L.C!5e0!3m2!1sen!2sus!4v1754555917539!5m2!1sen!2sus"
                         width="100%"
                         height="400"
                         className="sm:h-96 lg:h-[500px] w-full"

@@ -320,21 +320,21 @@ export const translations = {
       },
       location: {
         title: "Location",
-        alFahidi: "Al Fahidi, Dubai",
-        district: "Al Fahidi Historic District",
-        fullAddress: "Bur Dubai, United Arab Emirates"
+        alFahidi: " Al Garhoud, Dubai",
+        district: "Garhoud Center - Al Garhoud",
+        fullAddress: "Garhoud Center - Al Garhoud - Dubai - United Arab Emirates"
       }
     },
     footer: {
       company: "MEMAT GENERAL TRADING COMPANY",
       description: "Your trusted partner for premium trading solutions in the Gulf region, delivering excellence through innovation.",
-      address: "Office 43-44, Al Fahidi, Bur Dubai",
+      address: "Garhoud Center - Al Garhoud - Dubai ",
       social: {
         linkedin: "Connect on LinkedIn"
       },
       location: {
         title: "Our Location",
-        address: "Al Fahidi Historic District, Bur Dubai",
+        address: "Garhoud Center - Al Garhoud - Dubai - United Arab Emirates",
         info: "Contact Information"
       },
       copyright: "© 2025 Memat General Trading Company • All rights reserved"
@@ -661,21 +661,21 @@ export const translations = {
       },
       location: {
         title: "الموقع",
-        alFahidi: "الفهيدي، دبي",
-        district: "حي الفهيدي التاريخي",
-        fullAddress: "بر دبي، دولة الإمارات العربية المتحدة"
+        alFahidi: "الغرهود، دبي",
+        district: "مركز الغرهود - الغرهود",
+        fullAddress: "مركز الغرهود - الغرهود - دبي - دولة الإمارات العربية المتحدة"
       }
     },
     footer: {
       company: "شركة ميمات للتجارة العامة",
       description: "شريكك الموثوق للحلول التجارية المتميزة في منطقة الخليج، نقدم التميز من خلال الابتكار.",
-      address: "مكتب 43-44، الفهيدي، بر دبي",
+      address: "مركز الغرهود - الغرهود - دبي",
       social: {
         linkedin: "تواصل عبر لينكد إن"
       },
       location: {
         title: "موقعنا",
-        address: "حي الفهيدي التاريخي، بر دبي",
+        address: "مركز الغرهود - الغرهود - دبي - دولة الإمارات العربية المتحدة",
         info: "معلومات الاتصال"
       },
       copyright: "© 2025 شركة ميمات للتجارة العامة • جميع الحقوق محفوظة"
