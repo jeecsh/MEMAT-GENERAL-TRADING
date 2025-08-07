@@ -12,7 +12,7 @@ export function TranslatedText({
 }: {
   children: React.ReactNode;
   className?: string;
-  element?: keyof JSX.IntrinsicElements;
+  element?: keyof React.JSX.IntrinsicElements;
 }) {
   const Element = element as any;
   
