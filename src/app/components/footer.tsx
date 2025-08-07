@@ -165,17 +165,17 @@ const Footer = () => {
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
             }`}>
               <div className="mt-8 p-6 bg-gradient-to-br from-neutral-900/60 to-neutral-900/30 backdrop-blur-sm rounded-2xl border border-neutral-800">
-                <div className="flex items-center justify-between">
-                  <div>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div className="text-center sm:text-left">
                     <h4 className="text-white font-semibold mb-2">Follow Us</h4>
                     <p className="text-neutral-400 text-sm">Connect with us on social media</p>
                   </div>
-                  <div className="flex gap-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
                    <a
                       href="https://www.facebook.com/profile.php?id=61578825993628"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex items-center gap-2 bg-yellow-400/10 hover:bg-yellow-400/20 px-4 py-3 rounded-xl border border-yellow-400/30 hover:border-yellow-400/50 transition-all duration-300 hover:scale-105"
+                      className="group flex items-center justify-center sm:justify-start gap-2 bg-yellow-400/10 hover:bg-yellow-400/20 px-4 py-3 rounded-xl border border-yellow-400/30 hover:border-yellow-400/50 transition-all duration-300 hover:scale-105"
                     >
                       <Facebook className="w-5 h-5 text-yellow-400" />
                       <span className="text-yellow-400 font-medium text-sm">Facebook</span>
@@ -184,7 +184,7 @@ const Footer = () => {
                       href="https://www.linkedin.com/company/memat-trading-co-l-l-c/?viewAsMember=true"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex items-center gap-2 bg-yellow-400/10 hover:bg-yellow-400/20 px-4 py-3 rounded-xl border border-yellow-400/30 hover:border-yellow-400/50 transition-all duration-300 hover:scale-105"
+                      className="group flex items-center justify-center sm:justify-start gap-2 bg-yellow-400/10 hover:bg-yellow-400/20 px-4 py-3 rounded-xl border border-yellow-400/30 hover:border-yellow-400/50 transition-all duration-300 hover:scale-105"
                     >
                       <Linkedin className="w-5 h-5 text-yellow-400" />
                       <span className="text-yellow-400 font-medium text-sm">LinkedIn</span>
