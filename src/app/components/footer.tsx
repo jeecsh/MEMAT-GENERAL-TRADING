@@ -42,7 +42,7 @@ const Footer = () => {
     { 
       icon: Phone, 
       label: "Phone",
-      text: "+971 52 632 5959", 
+      text: "+971-503-800249", 
       subtext: "Available 9AM - 6PM GST"
     },
     { 
@@ -172,14 +172,18 @@ const Footer = () => {
                   </div>
                   <div className="flex gap-3">
                    <a
-                      href="#"
+                      href="https://www.facebook.com/profile.php?id=61578825993628"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="group flex items-center gap-2 bg-yellow-400/10 hover:bg-yellow-400/20 px-4 py-3 rounded-xl border border-yellow-400/30 hover:border-yellow-400/50 transition-all duration-300 hover:scale-105"
                     >
                       <Facebook className="w-5 h-5 text-yellow-400" />
                       <span className="text-yellow-400 font-medium text-sm">Facebook</span>
                     </a>
                     <a
-                      href="#"
+                      href="https://www.linkedin.com/company/memat-trading-co-l-l-c/?viewAsMember=true"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="group flex items-center gap-2 bg-yellow-400/10 hover:bg-yellow-400/20 px-4 py-3 rounded-xl border border-yellow-400/30 hover:border-yellow-400/50 transition-all duration-300 hover:scale-105"
                     >
                       <Linkedin className="w-5 h-5 text-yellow-400" />
