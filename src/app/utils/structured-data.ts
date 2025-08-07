@@ -7,13 +7,23 @@ export function generateOrganizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "MEMAT General Trading Company | شركة ميمات للتجارة العامة",
-    "alternateName": ["ميمات للتجارة العامة", "MEMAT Trading", "Memat General Trading"],
+    "name": "MEMAT General Trading Company | ميمات للتجاره العامة",
+    "alternateName": [
+      "ميمات للتجاره العامة", 
+      "ميمات للتجارة العامة",
+      "شركة ميمات للتجاره",
+      "شركة ميمات للتجارة",
+      "MEMAT Trading", 
+      "Memat General Trading",
+      "ميمات تريدنج",
+      "ميمات جنرال تريدنج"
+    ],
     "url": "https://www.memattrading.com",
     "logo": "https://www.memattrading.com/logo-01.png",
     "description": [
       "Leading Gulf trading company specializing in premium solar energy solutions, construction materials, raw materials, and traffic safety equipment.",
-      "شركة تجارية رائدة في منطقة الخليج متخصصة في حلول الطاقة الشمسية المتميزة، مواد البناء، المواد الخام، ومعدات سلامة الطرق"
+      "شركة تجارية رائدة في منطقة الخليج متخصصة في حلول الطاقة الشمسية المتميزة، مواد البناء، المواد الخام، ومعدات سلامة الطرق",
+      "ميمات للتجاره العامة هي شركة تجارية مرموقة تقدم أكثر من 500 منتج متميز في دولة الإمارات"
     ],
     "address": {
       "@type": "PostalAddress",
@@ -24,6 +34,8 @@ export function generateOrganizationSchema() {
     },
     "contactPoint": {
       "@type": "ContactPoint",
+      "telephone": "+971526325959",
+      "email": "info@Memat-trading.com",
       "contactType": "sales",
       "areaServed": ["AE", "SA", "KW", "QA", "BH", "OM"],
       "availableLanguage": ["en", "ar"]
@@ -35,6 +47,10 @@ export function generateOrganizationSchema() {
     "numberOfEmployees": "10-50",
     "industry": "Trading | التجارة",
     "keywords": [
+      "MEMAT General Trading",
+      "ميمات للتجاره العامة",
+      "ميمات للتجارة العامة",
+      "شركة ميمات للتجاره",
       "solar energy", "الطاقة الشمسية",
       "construction materials", "مواد البناء", 
       "raw materials", "المواد الخام",
@@ -44,7 +60,9 @@ export function generateOrganizationSchema() {
       "silica sand", "رمل السيليكا",
       "gabbro stone", "حجر الجابرو",
       "solar panels", "الألواح الشمسية",
-      "inverters", "المحولات"
+      "inverters", "المحولات",
+      "شركة تجارية دبي",
+      "التجارة العامة الإمارات"
     ]
   };
 }
